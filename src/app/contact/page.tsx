@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
+import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact Addhyan Academy about programmes, counselling, corporate training or franchise.",
+  description: "Contact details for Addhyan Academy. The message form is coming soon until an official inbox is connected.",
 };
 
 export default function ContactPage() {
@@ -16,7 +16,7 @@ export default function ContactPage() {
         <PageHeader
           eyebrow="Contact"
           title="Talk to Addhyan"
-          description="Use the form and we will get back to you. Official phone, email and postal address will replace the placeholders below when they are published."
+          description="Official phone, email and postal address will replace the placeholders below when they are published. The send-message form is coming soon."
         />
         <div className="space-y-4 rounded-xl border border-border bg-white p-5 text-sm">
           <p>
@@ -31,7 +31,10 @@ export default function ContactPage() {
           <p className="text-muted-foreground">{site.contact.note}</p>
         </div>
         <div className="lg:col-span-2 max-w-2xl">
-          <EnquiryForm type="contact" submitLabel="Send message" />
+          <ComingSoonNotice
+            title="Message form coming soon"
+            description="A contact form only works if messages reach Addhyan. Until an official inbox is connected, this form is coming soon rather than a submission that goes nowhere."
+          />
         </div>
       </Container>
     </div>

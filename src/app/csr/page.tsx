@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
+import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 import { getOfferingBySlug } from "@/data/offerings";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "CSR",
-  description: "Free and community-oriented career and skill initiatives from Addhyan Academy.",
+  description: "Free and community-oriented career and skill initiatives from Addhyan Academy. Applications are coming soon.",
 };
 
 export default function CsrPage() {
@@ -29,12 +29,14 @@ export default function CsrPage() {
         <div className="space-y-4">
           <p className="text-muted-foreground leading-relaxed">{offering.description}</p>
           <p className="text-muted-foreground leading-relaxed">
-            If you want to join a community initiative, or to discuss a CSR
-            collaboration, send an enquiry. We will only confirm what is actually
-            open at the time.
+            Details of a specific initiative will be published when one is open.
+            Applying or partnering through this site is coming soon.
           </p>
         </div>
-        <EnquiryForm type="contact" submitLabel="Enquire about CSR" />
+        <ComingSoonNotice
+          title="Applications coming soon"
+          description="Joining a CSR initiative needs a live programme and a way to register. Neither is connected here yet."
+        />
       </Container>
     </div>
   );

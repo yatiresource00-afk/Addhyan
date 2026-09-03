@@ -38,6 +38,9 @@ export function CourseCard({ offering }: { offering: Offering }) {
         <CardHeader className="gap-2">
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">{statusLabel(offering)}</Badge>
+            {offering.intake === "coming-soon" && offering.status !== "coming-soon" ? (
+              <Badge variant="outline">{offering.intakeLabel}</Badge>
+            ) : null}
             <Badge variant="outline">{offering.level}</Badge>
           </div>
           <CardTitle className="font-heading text-lg leading-snug">
@@ -66,7 +69,7 @@ export function CourseCard({ offering }: { offering: Offering }) {
 export function PriceLine({ offering }: { offering: Offering }) {
   if (offering.price === 0) return <p className="text-green font-semibold">Free</p>;
   if (offering.price == null) {
-    return <p className="font-medium">Price on enquiry</p>;
+    return <p className="font-medium">Fee to be confirmed</p>;
   }
   return (
     <p className="text-navy font-semibold">

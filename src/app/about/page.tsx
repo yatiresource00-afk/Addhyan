@@ -25,9 +25,10 @@ export default function AboutPage() {
           </p>
           <p>
             We focus on practical, affordable programmes: job readiness (JRP),
-            career acceleration (JRP Advance), Basic and Advanced AI, plus booked
-            career counselling. CSR covers community learning. Corporate training
-            and franchise partnerships are enquiry-based, not student checkouts.
+            career acceleration (JRP Advance), Basic and Advanced AI, plus career
+            counselling. CSR covers community learning. Corporate training and
+            franchise partnerships are organisation/partner services, not student
+            checkouts. Enrolment, booking and request forms are coming soon.
           </p>
           <p>
             We do not publish student counts, placement rates or testimonials on

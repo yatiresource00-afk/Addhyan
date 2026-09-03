@@ -54,6 +54,9 @@ export type Offering = {
   instructor?: { name: string; role: string };
   thumbnail: string;
   status: OfferingStatus;
+  /** Whether the operational action (enrol, book, request) can complete on this site. */
+  intake: "live" | "coming-soon";
+  intakeLabel: string;
   ctaType: CtaType;
   ctaLabel: string;
   faqs: { question: string; answer: string }[];

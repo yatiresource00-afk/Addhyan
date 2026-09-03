@@ -25,7 +25,7 @@ export default function CoursesPage() {
         <PageHeader
           eyebrow="Catalogue"
           title="Courses and learning paths"
-          description="Paid programmes have published prices including GST. Services are enquiry or booking based. Education is listed as coming soon."
+          description="Paid programmes have published prices including GST. You can read the details now. Enrolment, booking and service requests are coming soon. Education is listed as coming soon."
         />
         <section id="paid" className="scroll-mt-24 space-y-6">
           <h2 className="text-2xl font-semibold">Paid courses</h2>

@@ -55,7 +55,7 @@ const categories = [
   {
     href: "/courses#services",
     title: "Career & services",
-    body: "Career counselling and corporate training — enquiry-led, not self-paced catalogues.",
+    body: "Career counselling and corporate training — information pages now; booking and requests coming soon.",
   },
 ];
 
@@ -97,7 +97,7 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="Programmes"
             title="Featured courses"
-            description="Four paid programmes with published prices. Enrolment currently starts with an enquiry — payments and the student dashboard are not live yet."
+            description="Four paid programmes with published prices. You can read each curriculum now. Online enrolment and payment are coming soon."
           />
           <CourseGrid offerings={featuredOfferings()} />
         </Container>
@@ -190,7 +190,7 @@ export default function HomePage() {
 
       <CtaBand
         title="Not sure where to start?"
-        description="Tell us your goal. We will use simple matching rules — not a black-box AI — to suggest a programme, then a person follows up."
+        description="Match your goal in the browser with simple published rules. Enrolment and a counsellor follow-up are coming soon."
         primaryHref="/find-my-course"
         primaryLabel="Find my course"
         secondaryHref="/contact"

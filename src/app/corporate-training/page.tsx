@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
+import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 import { getOfferingBySlug } from "@/data/offerings";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Corporate Training",
-  description: "Request workplace and AI skill training for your organisation from Addhyan Academy.",
+  description:
+    "Workplace and AI skill training for organisations from Addhyan Academy. Online training requests are coming soon.",
 };
 
 export default function CorporateTrainingPage() {
@@ -21,7 +22,7 @@ export default function CorporateTrainingPage() {
           <PageHeader
             eyebrow="Organisations"
             title="Corporate Training"
-            description="Enquiry-based training for teams. There is no public checkout or fixed shopping-cart price."
+            description="Training for teams, scoped with your organisation. There is no public checkout. Sending a request online is coming soon."
           />
           <p className="text-muted-foreground leading-relaxed">{offering.description}</p>
           <ul className="text-muted-foreground list-disc space-y-2 pl-5">
@@ -30,7 +31,10 @@ export default function CorporateTrainingPage() {
             ))}
           </ul>
         </div>
-        <EnquiryForm type="corporate" submitLabel="Request Corporate Training" />
+        <ComingSoonNotice
+          title="Requests coming soon"
+          description="A real corporate request needs someone at Addhyan to receive and quote it. That inbox is not connected here yet, so the request form is coming soon."
+        />
       </Container>
     </div>
   );

@@ -20,9 +20,9 @@ export default function TermsPage() {
         <div className="text-muted-foreground space-y-4 leading-relaxed">
           <p>
             This website is operated by {site.legalName} for {site.name}. Content
-            is provided for information about programmes and services. Submitting
-            an enquiry does not create an enrolment contract until Addhyan confirms
-            it in writing and (when live) payment is completed.
+            is provided for information about programmes and services. Enrolment,
+            booking and enquiry forms are marked coming soon until those services
+            are connected. Using this site does not create an enrolment contract.
           </p>
           <p>
             Programme descriptions, prices including GST, and availability may
@@ -30,8 +30,8 @@ export default function TermsPage() {
             public webpage.
           </p>
           <p>
-            You must not misuse forms, scrape the site, or attempt to access
-            unpublished learning resources.
+            You must not scrape the site or attempt to access unpublished learning
+            resources.
           </p>
         </div>
       </Container>

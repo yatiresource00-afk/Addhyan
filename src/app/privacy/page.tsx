@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
-import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Privacy",
@@ -15,19 +14,17 @@ export default function PrivacyPage() {
         <PageHeader
           eyebrow="Legal"
           title="Privacy"
-          description="Draft notice covering enquiry data collected on this site. Replace with counsel-approved copy before public launch."
+          description="Draft notice for this marketing site. Replace with counsel-approved copy before public launch."
         />
         <div className="text-muted-foreground space-y-4 leading-relaxed">
           <p>
-            {site.name} ({site.legalName}) collects the information you submit on
-            enquiry forms: name, phone, email, and any optional details such as
-            education, goals or organisation name.
+            Find My Course runs in your browser. It does not send your answers to
+            Addhyan. Enrolment, booking and contact forms are coming soon, so this
+            site is not currently collecting enquiry submissions.
           </p>
           <p>
-            We use it to respond to your request, suggest a programme using
-            published matching rules, and follow up about enrolment. Submissions
-            are stored so the team can action them. Do not send passwords, payment
-            card numbers or government IDs through these forms.
+            Do not send passwords, payment card numbers or government IDs through
+            any future form on this domain.
           </p>
           <p>
             Contact placeholders on this site are not a substitute for a full

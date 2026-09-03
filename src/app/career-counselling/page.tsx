@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
+import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 import { getOfferingBySlug } from "@/data/offerings";
 import { formatPriceInr } from "@/lib/format";
 import { notFound } from "next/navigation";
@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 export const metadata: Metadata = {
   title: "Career Counselling",
   description:
-    "Book career counselling with Addhyan Academy. A guidance service — not a self-paced course. ₹999 including GST.",
+    "Career counselling with Addhyan Academy is a guidance service — not a self-paced course. Online booking is coming soon. ₹999 including GST.",
 };
 
 export default function CareerCounsellingPage() {
@@ -36,7 +36,10 @@ export default function CareerCounsellingPage() {
             ))}
           </ul>
         </div>
-        <EnquiryForm type="counselling" submitLabel="Book Career Counselling" />
+        <ComingSoonNotice
+          title="Booking coming soon"
+          description="Scheduling a counselling session needs a live calendar and a counsellor inbox. Those are not on this website yet, so bookings are marked coming soon rather than a form that cannot complete."
+        />
       </Container>
     </div>
   );

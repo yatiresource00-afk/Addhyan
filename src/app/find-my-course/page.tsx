@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { FindMyCourseForm } from "@/components/forms/FindMyCourseForm";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
 
 export const metadata: Metadata = {
   title: "Find My Course",
   description:
-    "Tell Addhyan Academy your goals. We use published matching rules to suggest JRP, JRP Advance, AI programmes, counselling or corporate training.",
+    "Match your goal to JRP, JRP Advance, AI programmes, counselling or corporate training using published rules in your browser.",
 };
 
 export default function FindMyCoursePage() {
@@ -17,7 +17,7 @@ export default function FindMyCoursePage() {
           <PageHeader
             eyebrow="Guidance"
             title="Find my course"
-            description="Share your situation. We match it to a programme using simple rules (for example: job preparation → JRP). A person still confirms the recommendation — this is not an AI engine."
+            description="This matcher runs in your browser with simple published rules (for example: job preparation → JRP). It is not an AI engine. Enrolment, booking and a human follow-up are coming soon."
           />
           <ul className="text-muted-foreground list-disc space-y-2 pl-5 text-sm">
             <li>Job preparation → JRP</li>
@@ -28,7 +28,7 @@ export default function FindMyCoursePage() {
             <li>Company training → Corporate Training</li>
           </ul>
         </div>
-        <EnquiryForm type="find-my-course" submitLabel="Get a suggested programme" />
+        <FindMyCourseForm />
       </Container>
     </div>
   );

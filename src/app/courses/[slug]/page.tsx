@@ -4,9 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Curriculum } from "@/components/course/Curriculum";
 import { PriceLine } from "@/components/course/CourseCard";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { Container } from "@/components/layout/Container";
 import { FaqList } from "@/components/sections/FaqList";
+import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 import { Badge } from "@/components/ui/badge";
 import { getOfferingBySlug, lessonCount, offerings } from "@/data/offerings";
 import { site } from "@/data/site";
@@ -170,32 +170,21 @@ export default async function CourseDetailPage({ params }: Props) {
         </article>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div className="space-y-4 rounded-xl border border-border bg-white p-5">
-            <h2 className="text-xl font-semibold">
-              {offering.ctaType === "coming-soon" ? "Register interest" : "Next step"}
-            </h2>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {offering.ctaType === "coming-soon"
-                ? "This category is not open yet. Share your details and we will contact you when it launches."
-                : "Payment and student login are not live yet. Send an enrolment enquiry and Addhyan will follow up."}
-            </p>
-            <EnquiryForm
-              type="course-interest"
-              courseSlug={offering.slug}
-              submitLabel={offering.ctaLabel}
-            />
-            <p className="text-muted-foreground text-xs">
-              Prefer a conversation first?{" "}
-              <Link href="/find-my-course" className="text-primary">
-                Find my course
-              </Link>{" "}
-              or{" "}
-              <Link href="/career-counselling" className="text-primary">
-                book counselling
-              </Link>
-              .
-            </p>
-          </div>
+          <ComingSoonNotice
+            title={offering.intakeLabel}
+            description={
+              offering.category === "coming-soon" || offering.status === "coming-soon"
+                ? "This category is not open yet. Programme pages are here so you can see what is planned."
+                : "Online enrolment, payment, login and lesson access need systems that are not on this website yet. You can read the curriculum here; starting the course is coming soon."
+            }
+          />
+          <p className="text-muted-foreground mt-4 text-xs">
+            Unsure which programme fits?{" "}
+            <Link href="/find-my-course" className="text-primary">
+              Find my course
+            </Link>{" "}
+            runs in your browser. Counselling bookings are also coming soon.
+          </p>
         </aside>
       </Container>
     </div>

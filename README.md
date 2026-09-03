@@ -25,10 +25,10 @@ npm run build
 - Home, courses catalogue, reusable course pages from `src/data/offerings.ts`
 - About, FAQ, Contact, Terms, Privacy
 - Career Counselling, Corporate Training, Franchise, Find My Course, CSR
-- Enquiry API at `POST /api/enquiries` (validated, rate-limited, honeypot)
-- Rule-based course matching in `src/data/recommendation-rules.ts`
+- **Coming soon (not fake-working):** enrolment/payment, counselling booking, corporate requests, franchise enquiries, contact message form, CSR applications
+- **Live in the browser:** Find My Course rule matcher (does not email Addhyan)
 
-Enquiries are written to `data/enquiries.json` on the server filesystem (gitignored). Replace `src/lib/enquiries/store.ts` with a database adapter later.
+Enquiry API code remains for a later phase. Do not treat local JSON storage as a live inbox.
 
 ## Brand
 

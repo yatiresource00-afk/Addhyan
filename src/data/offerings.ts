@@ -89,8 +89,10 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/jrp.svg",
     status: "published",
-    ctaType: "enquire",
-    ctaLabel: "Enquire to enrol",
+    intake: "coming-soon",
+    intakeLabel: "Enrolment coming soon",
+    ctaType: "enroll",
+    ctaLabel: "View programme",
     accent: "blue",
     faqs: [
       {
@@ -218,8 +220,10 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/jrp-advance.svg",
     status: "published",
-    ctaType: "enquire",
-    ctaLabel: "Enquire about JRP Advance",
+    intake: "coming-soon",
+    intakeLabel: "Enrolment coming soon",
+    ctaType: "enroll",
+    ctaLabel: "View programme",
     accent: "orange",
     faqs: [
       {
@@ -330,8 +334,10 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/basic-ai.svg",
     status: "published",
-    ctaType: "enquire",
-    ctaLabel: "Enquire to enrol",
+    intake: "coming-soon",
+    intakeLabel: "Enrolment coming soon",
+    ctaType: "enroll",
+    ctaLabel: "View programme",
     accent: "green",
     faqs: [
       {
@@ -448,8 +454,10 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/advanced-ai.svg",
     status: "published",
-    ctaType: "enquire",
-    ctaLabel: "Enquire to enrol",
+    intake: "coming-soon",
+    intakeLabel: "Enrolment coming soon",
+    ctaType: "enroll",
+    ctaLabel: "View programme",
     accent: "navy",
     faqs: [
       {
@@ -510,14 +518,16 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/counselling.svg",
     status: "published",
+    intake: "coming-soon",
+    intakeLabel: "Booking coming soon",
     ctaType: "book",
-    ctaLabel: "Book Career Counselling",
+    ctaLabel: "Learn more",
     accent: "blue",
     faqs: [
       {
         question: "Is this a course?",
         answer:
-          "No. Career Counselling is a booked conversation. You do not receive a lesson library.",
+          "No. Career Counselling is a booked conversation. You do not receive a lesson library. Online booking is coming soon.",
       },
       {
         question: "Does the fee include GST?",
@@ -570,6 +580,8 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/csr.svg",
     status: "published",
+    intake: "coming-soon",
+    intakeLabel: "Applications coming soon",
     ctaType: "explore",
     ctaLabel: "Explore CSR",
     accent: "green",
@@ -581,13 +593,13 @@ export const offerings: Offering[] = [
       {
         question: "How do I join a CSR programme?",
         answer:
-          "Use the enquiry form on the CSR page. Addhyan will share what is currently open. We do not list participant numbers that we cannot verify.",
+          "Applications to join a CSR initiative are coming soon. This page explains the category; we do not list participant numbers we cannot verify.",
       },
     ],
     seo: {
       title: "CSR Community Learning | Addhyan Academy",
       description:
-        "Addhyan Academy CSR: free and community-oriented career and skill initiatives. Enquire about current programmes.",
+        "Addhyan Academy CSR: free and community-oriented career and skill initiatives. Applications are coming soon.",
     },
   },
   {
@@ -621,6 +633,8 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/education.svg",
     status: "coming-soon",
+    intake: "coming-soon",
+    intakeLabel: "Coming soon",
     ctaType: "coming-soon",
     ctaLabel: "Coming soon",
     accent: "navy",
@@ -628,7 +642,7 @@ export const offerings: Offering[] = [
       {
         question: "When will Education launch?",
         answer:
-          "A date is not published yet. You can enquire if you want to be informed when it opens.",
+          "A date is not published yet. This category is coming soon.",
       },
     ],
     seo: {
@@ -679,14 +693,16 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/corporate.svg",
     status: "published",
+    intake: "coming-soon",
+    intakeLabel: "Requests coming soon",
     ctaType: "enquire",
-    ctaLabel: "Request Corporate Training",
+    ctaLabel: "Learn more",
     accent: "orange",
     faqs: [
       {
         question: "Is there a public price?",
         answer:
-          "No. Corporate Training is quoted after we understand group size, goals and format.",
+          "No. Corporate Training will be quoted after group size, goals and format are agreed. Requesting a programme online is coming soon.",
       },
     ],
     seo: {
@@ -711,7 +727,7 @@ export const offerings: Offering[] = [
     description:
       "Franchise with Addhyan is a business partnership conversation. It is not a student course and has no self-paced lessons.",
     valueProposition:
-      "Explore whether a local Addhyan presence is right for you — through a structured enquiry, not an online enrolment.",
+      "Explore whether a local Addhyan presence is right for you. Partner enquiries are coming soon.",
     targetAudience: [
       "Education entrepreneurs",
       "Training centre owners",
@@ -722,7 +738,7 @@ export const offerings: Offering[] = [
     modules: [],
     outcomes: [
       "An introduction to how Addhyan works with partners",
-      "A follow-up if the enquiry is a potential fit",
+      "A conversation if the partnership is a potential fit — when enquiries open",
     ],
     features: [
       "Access to Addhyan programme positioning",
@@ -736,20 +752,22 @@ export const offerings: Offering[] = [
     },
     thumbnail: "/courses/franchise.svg",
     status: "published",
+    intake: "coming-soon",
+    intakeLabel: "Enquiries coming soon",
     ctaType: "enquire",
-    ctaLabel: "Enquire about franchise",
+    ctaLabel: "Learn more",
     accent: "navy",
     faqs: [
       {
         question: "Is this a course I can buy?",
         answer:
-          "No. Franchise is a partnership enquiry, separate from student programmes.",
+          "No. Franchise is a partnership conversation, separate from student programmes. Partner enquiries are coming soon.",
       },
     ],
     seo: {
       title: "Franchise with Addhyan Academy",
       description:
-        "Enquire about partnering with Addhyan Academy. Franchise is a business conversation, not a student course.",
+        "Partner with Addhyan Academy. Franchise is a business conversation, not a student course. Online enquiries are coming soon.",
     },
   },
 ];

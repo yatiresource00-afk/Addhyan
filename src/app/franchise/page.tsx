@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
+import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 
 export const metadata: Metadata = {
   title: "Franchise with Addhyan",
-  description: "Enquire about partnering with Addhyan Academy. Franchise is a business conversation, not a student course.",
+  description: "Partner with Addhyan Academy. Franchise is a business conversation, not a student course. Online enquiries are coming soon.",
 };
 
 const benefits = [
   "Carry Addhyan’s workplace-readiness and AI programme positioning in your market",
-  "A structured enquiry so we can qualify fit before any operational discussion",
+  "A structured qualification step before any operational discussion",
   "Separate from student enrolment — partners are not buying a course seat",
 ];
 
 const support = [
   "Programme messaging aligned to JRP, JRP Advance, Basic AI and Advanced AI",
   "Guidance on who the programmes are for (students through working professionals)",
-  "A named follow-up if the enquiry looks like a potential fit",
+          "A conversation on support, operations and next steps — when partner enquiries open",
 ];
 
 const process = [
@@ -49,7 +49,10 @@ export default function FranchisePage() {
               ))}
             </ol>
           </div>
-          <EnquiryForm type="franchise" submitLabel="Enquire about franchise" />
+          <ComingSoonNotice
+            title="Enquiries coming soon"
+            description="A franchise conversation needs a partnership review. That process is not connected to this website yet, so partner enquiries are coming soon."
+          />
         </section>
       </Container>
     </div>

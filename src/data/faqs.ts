@@ -22,7 +22,7 @@ export const siteFaqs = [
   {
     question: "Is Career Counselling a course?",
     answer:
-      "No. Career Counselling (₹999 incl. GST) is a booked guidance service. You enquire or book — you do not receive a self-paced lesson library.",
+      "No. Career Counselling (₹999 incl. GST) is a booked guidance service. Online booking is coming soon.",
   },
   {
     question: "Do prices include GST?",
@@ -32,11 +32,16 @@ export const siteFaqs = [
   {
     question: "Can I pay and start learning online today?",
     answer:
-      "Online payment, login and the learning dashboard are not live yet. Use Enquire to enrol or Find My Course and Addhyan will follow up on the current enrolment process.",
+      "No. Enrolment, payment, login and the learning dashboard are coming soon. You can read programme pages and use Find My Course in your browser.",
   },
   {
     question: "Do you offer corporate training or franchise partnerships?",
     answer:
-      "Yes. Corporate Training and Franchise are enquiry-based services, not public course checkouts. Use those pages to send details.",
+      "Yes, as planned services. Online requests for Corporate Training and Franchise are coming soon until an Addhyan inbox and review process are connected.",
+  },
+  {
+    question: "Does the contact form work?",
+    answer:
+      "The message form is coming soon. Official phone, email and address are still placeholders until Addhyan publishes them.",
   },
 ];
