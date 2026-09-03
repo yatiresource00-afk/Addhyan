@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="t">
+  <title id="t">JRP programme artwork</title>
+  <rect width="640" height="360" fill="#E8F3FC"/>
+  <rect x="48" y="48" width="544" height="264" rx="16" fill="#0068C8"/>
+  <text x="80" y="150" fill="#ffffff" font-family="Arial, sans-serif" font-size="28" font-weight="700">JRP</text>
+  <text x="80" y="190" fill="#D6EBFA" font-family="Arial, sans-serif" font-size="18">Become Job Ready</text>
+</svg>
