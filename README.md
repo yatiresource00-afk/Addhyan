@@ -2,16 +2,20 @@
 
 Public marketing site for **Addhyan Academy**, part of Yati Resource Private Limited. Programmes cover job readiness, career growth and practical AI skills.
 
-This first release is the public catalogue and enquiry flows (planning phases 1–7). Login, payments, the student dashboard and the lesson player are **not** implemented yet.
+Includes register / sign in (SQLite on the Node server). Enrolment, payments and the lesson player are still **coming soon**.
+
+**Browse codebase:** [cursor.com/codebase/yati-resource-accounts/addhyan-blueprint](https://cursor.com/codebase/yati-resource-accounts/addhyan-blueprint) (private)
 
 ## Run locally
 
 ```bash
 npm install
+cp .env.example .env   # set AUTH_SECRET
+npx prisma migrate deploy
 npm run dev
 ```
 
-The app listens on [http://127.0.0.1:43123](http://127.0.0.1:43123).
+Open [http://127.0.0.1:43123](http://127.0.0.1:43123).
 
 ```bash
 npm run typecheck
@@ -20,50 +24,54 @@ npm test
 npm run build
 ```
 
-## Host with Node.js
+## Deploy on Railway
 
-This site is a Next.js app served by a Node.js HTTP server (`server.mjs`). You need **Node.js 20+**.
+Full steps: **[docs/RAILWAY.md](docs/RAILWAY.md)**
+
+Summary:
+
+1. Connect GitHub repo `yati-resource-accounts/addhyan-blueprint` on [Railway](https://railway.app).
+2. Add a **volume** mounted at `/data`.
+3. Set variables: `AUTH_SECRET`, `DATABASE_URL=file:/data/addhyan.db`.
+4. Generate a public domain in Railway networking.
+
+Build: `npm run build` · Start: `npm start` (migrations + `server.mjs`).
+
+## Host with Node.js (any VPS)
 
 ```bash
 npm install
+npx prisma migrate deploy
 npm run build
 npm start
 ```
 
-`npm start` runs `NODE_ENV=production node server.mjs`.
-
-| Variable | Default | Purpose |
+| Variable | Local | Railway |
 |---|---|---|
-| `PORT` | `43123` | Listen port |
-| `HOST` | `0.0.0.0` | Bind address (`0.0.0.0` is required behind most hosts/proxies) |
-| `NODE_ENV` | `production` when using `npm start` | Production mode |
-
-Example:
-
-```bash
-PORT=8080 HOST=0.0.0.0 npm start
-```
-
-Put a reverse proxy (Nginx, Caddy, or your host’s load balancer) in front if you want HTTPS. Do not commit secrets; this public site does not require API keys to run.
+| `DATABASE_URL` | `file:../data/addhyan.db` | `file:/data/addhyan.db` |
+| `AUTH_SECRET` | required in production | required |
+| `PORT` | `43123` | set by Railway |
+| `HOST` | `0.0.0.0` | `0.0.0.0` |
 
 ## What is in this release
 
 - Home, courses catalogue, reusable course pages from `src/data/offerings.ts`
+- Register, sign in, account page (SQLite)
 - About, FAQ, Contact, Terms, Privacy
 - Career Counselling, Corporate Training, Franchise, Find My Course, CSR
-- **Coming soon (not fake-working):** enrolment/payment, counselling booking, corporate requests, franchise enquiries, contact message form, CSR applications
-- **Live in the browser:** Find My Course rule matcher (does not email Addhyan)
+- **Coming soon:** enrolment/payment, counselling booking, corporate/franchise/contact forms, CSR applications
+- **Live in browser:** Find My Course rule matcher
 
-Enquiry API code remains for a later phase. Do not treat local JSON storage as a live inbox.
+## Clone (Windows → WSL)
 
-## Brand
+```bash
+curl -fsSL https://downloads.cursor.com/origin/install.sh | sh
+origin auth login
+origin repo clone yati-resource-accounts/addhyan-blueprint
+```
 
-The official logo lives at `public/brand/addhyan-academy-logo.png`. Do not redraw or replace it.
-
-## Contact placeholders
-
-Phone, email and postal address in `src/data/site.ts` are placeholders until official details are provided.
+Origin CLI docs: [cursor.com/docs/origin/cli](https://cursor.com/docs/origin/cli)
 
 ## Stack
 
-Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui.
+Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui, Prisma + SQLite, Node `server.mjs`.

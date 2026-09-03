@@ -16,6 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/franchise",
     "/find-my-course",
     "/csr",
+    "/login",
+    "/register",
   ];
   const offeringPaths = offerings.map((item) => item.href);
   const unique = [...new Set([...staticPaths, ...offeringPaths])];

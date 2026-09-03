@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Source_Sans_3 } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { getCurrentUser } from "@/lib/auth/session";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -35,7 +36,8 @@ export const metadata: Metadata = {
   icons: { icon: site.logo },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const user = await getCurrentUser();
   return (
     <html
       lang="en"
@@ -43,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <SkipLink />
-        <SiteHeader />
+        <SiteHeader user={user} />
         <main id="main-content" className="flex-1">
           {children}
         </main>

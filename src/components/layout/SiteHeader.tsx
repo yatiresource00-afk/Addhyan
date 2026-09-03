@@ -9,7 +9,11 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { nav } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-export function SiteHeader() {
+export function SiteHeader({
+  user,
+}: {
+  user: { name: string } | null;
+}) {
   const [open, setOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
 
@@ -74,10 +78,30 @@ export function SiteHeader() {
             )
           )}
         </nav>
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-2 lg:flex">
+          {user ? (
+            <Link
+              href="/account"
+              className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
+            >
+              Account
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
+              >
+                Sign in
+              </Link>
+              <Link href="/register" className={cn(buttonVariants({ size: "lg" }), "h-10 px-4")}>
+                Register
+              </Link>
+            </>
+          )}
           <Link
             href="/find-my-course"
-            className={cn(buttonVariants({ size: "lg" }), "h-10 px-4")}
+            className={cn(buttonVariants({ variant: user ? "default" : "outline", size: "lg" }), "h-10 px-4")}
           >
             Find my course
           </Link>
@@ -131,9 +155,27 @@ export function SiteHeader() {
                 </ul>
               </div>
             ))}
+            {user ? (
+              <Link href="/account" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
+                Account
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
+                  Sign in
+                </Link>
+                <Link
+                  href="/register"
+                  className={cn(buttonVariants({ size: "lg" }), "h-11 w-full")}
+                  onClick={() => setOpen(false)}
+                >
+                  Register
+                </Link>
+              </>
+            )}
             <Link
               href="/find-my-course"
-              className={cn(buttonVariants({ size: "lg" }), "h-11 w-full")}
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11 w-full")}
               onClick={() => setOpen(false)}
             >
               Find my course

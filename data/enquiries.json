@@ -1,0 +1,19 @@
+[
+  {
+    "type": "find-my-course",
+    "name": "Test User",
+    "phone": "+91 9876543210",
+    "email": "test@example.com",
+    "education": "Graduate",
+    "occupation": "Student",
+    "ageGroup": "18–24",
+    "careerGoal": "job-preparation",
+    "interest": "Workplace skills and professionalism",
+    "skillLevel": "Beginner",
+    "learningFormat": "Self-paced",
+    "budget": "Under ₹1,000",
+    "requirement": "Need a first job",
+    "id": "3520daf2-158e-42ba-960a-6cef51596dd1",
+    "createdAt": "2026-09-03T13:05:07.447Z"
+  }
+]

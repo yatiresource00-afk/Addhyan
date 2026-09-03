@@ -34,8 +34,11 @@ yarn-error.log*
 .env*
 !.env.example
 
-# enquiry store (local adapter)
-/data/enquiries.json
+# local sqlite
+/data/*.db
+/data/*.db-journal
+/prisma/data/
+
 
 # vercel
 .vercel

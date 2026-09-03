@@ -32,7 +32,12 @@ export const siteFaqs = [
   {
     question: "Can I pay and start learning online today?",
     answer:
-      "No. Enrolment, payment, login and the learning dashboard are coming soon. You can read programme pages and use Find My Course in your browser.",
+      "You can create an account and sign in. Enrolment, payment and the lesson player are coming soon. You can still read programme pages and use Find My Course in your browser.",
+  },
+  {
+    question: "How do I create an account?",
+    answer:
+      "Use Register in the header. Accounts are stored on this website’s Node.js database. Email verification is not required yet.",
   },
   {
     question: "Do you offer corporate training or franchise partnerships?",

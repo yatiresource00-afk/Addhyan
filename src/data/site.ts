@@ -67,6 +67,8 @@ export const nav = {
       { href: "/find-my-course", label: "Find My Course" },
     ],
     academy: [
+      { href: "/login", label: "Sign in" },
+      { href: "/register", label: "Register" },
       { href: "/about", label: "About" },
       { href: "/faq", label: "FAQ" },
       { href: "/contact", label: "Contact" },
