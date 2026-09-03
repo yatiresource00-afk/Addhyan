@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 export function CtaBand({

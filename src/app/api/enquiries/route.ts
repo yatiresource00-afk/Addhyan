@@ -37,30 +37,30 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const { website: _honeypot, ...rest } = parsed.data;
+  const data = parsed.data;
   const record = await fileEnquiryRepository.create({
-    type: rest.type,
-    name: rest.name,
-    phone: rest.phone,
-    email: rest.email,
-    message: rest.message,
-    courseSlug: rest.courseSlug,
-    company: rest.company,
-    city: rest.city,
-    education: rest.education,
-    occupation: rest.occupation,
-    ageGroup: rest.ageGroup,
-    careerGoal: rest.careerGoal,
-    interest: rest.interest,
-    skillLevel: rest.skillLevel,
-    learningFormat: rest.learningFormat,
-    budget: rest.budget,
-    requirement: rest.requirement,
+    type: data.type,
+    name: data.name,
+    phone: data.phone,
+    email: data.email,
+    message: data.message,
+    courseSlug: data.courseSlug,
+    company: data.company,
+    city: data.city,
+    education: data.education,
+    occupation: data.occupation,
+    ageGroup: data.ageGroup,
+    careerGoal: data.careerGoal,
+    interest: data.interest,
+    skillLevel: data.skillLevel,
+    learningFormat: data.learningFormat,
+    budget: data.budget,
+    requirement: data.requirement,
   });
 
   const recommendations =
-    rest.type === "find-my-course" && rest.careerGoal
-      ? recommendByCareerGoal(rest.careerGoal)
+    data.type === "find-my-course" && data.careerGoal
+      ? recommendByCareerGoal(data.careerGoal)
       : [];
 
   return NextResponse.json({ ok: true, id: record.id, recommendations });

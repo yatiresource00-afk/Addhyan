@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/layout/Container";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { nav } from "@/data/site";
 import { cn } from "@/lib/utils";
 
