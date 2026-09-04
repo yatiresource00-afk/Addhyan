@@ -8,9 +8,10 @@ export function ensureDatabaseUrl() {
   }
   if (process.env.DATABASE_URL.startsWith("file:")) {
     const filePath = process.env.DATABASE_URL.replace(/^file:/, "");
-    const dir = path.isAbsolute(filePath)
-      ? path.dirname(filePath)
-      : path.dirname(path.join(process.cwd(), filePath));
-    mkdirSync(dir, { recursive: true });
+    if (path.isAbsolute(filePath)) {
+      mkdirSync(path.dirname(filePath), { recursive: true });
+    } else {
+      mkdirSync(path.join(process.cwd(), "data"), { recursive: true });
+    }
   }
 }
