@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Addhyan Academy website
 
 Public marketing site for **Addhyan Academy**, part of Yati Resource Private Limited. Programmes cover job readiness, career growth and practical AI skills.
@@ -71,3 +72,6 @@ Origin CLI docs: [cursor.com/docs/origin/cli](https://cursor.com/docs/origin/cli
 ## Stack
 
 Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui, Prisma + SQLite, Node `server.mjs`.
+=======
+# Addhyan
+>>>>>>> 3f48ab6e57d469eda823473707dc2d2f2a11abf0
