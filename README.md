@@ -24,18 +24,14 @@ npm test
 npm run build
 ```
 
-## Deploy on Railway
+## Deploy on Railway (GitHub → live site)
 
-Full steps: **[docs/RAILWAY.md](docs/RAILWAY.md)**
+**Full step-by-step:** **[docs/RAILWAY.md](docs/RAILWAY.md)**
 
-Summary:
+- GitHub: https://github.com/yatiresource00-afk/Addhyan
+- Railway: https://railway.com/project/da6761a8-5482-4e5a-931b-3d38f8125378
 
-1. Connect GitHub repo `yati-resource-accounts/addhyan-blueprint` on [Railway](https://railway.app).
-2. Add a **volume** mounted at `/data`.
-3. Set variables: `AUTH_SECRET`, `DATABASE_URL=file:/data/addhyan.db`.
-4. Generate a public domain in Railway networking.
-
-Build: `npm run build` · Start: `npm start` (migrations + `server.mjs`).
+You must push this project to GitHub `main` from WSL first. Railway cannot build an empty GitHub repo.
 
 ## Host with Node.js (any VPS)
 
