@@ -1,9 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { mkdirSync } from "node:fs";
-import path from "node:path";
+import { ensureDatabaseUrl } from "@/lib/database-url";
 
-const dataDir = path.join(process.cwd(), "data");
-mkdirSync(dataDir, { recursive: true });
+ensureDatabaseUrl();
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 

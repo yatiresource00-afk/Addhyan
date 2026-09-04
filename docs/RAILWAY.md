@@ -6,9 +6,27 @@ This app runs as a **Node.js** service (`server.mjs`) with **SQLite** (accounts)
 
 1. Open [https://railway.app](https://railway.app) and sign in.
 2. **New Project** → **Deploy from GitHub repo** (or **Empty Project** and connect later).
-3. Select the repository: `yati-resource-accounts/addhyan-blueprint`.
+3. Select the GitHub repository: `yatiresource00-afk/Addhyan`.
 
-Railway will detect Node.js and use [`railway.toml`](railway.toml) for build/start.
+Railway project: [https://railway.com/project/da6761a8-5482-4e5a-931b-3d38f8125378](https://railway.com/project/da6761a8-5482-4e5a-931b-3d38f8125378)
+
+GitHub source: [https://github.com/yatiresource00-afk/Addhyan](https://github.com/yatiresource00-afk/Addhyan)
+
+## If GitHub or Railway build fails
+
+1. **GitHub must contain the full Next.js app** (`package.json`, `src/`, `prisma/`). An empty repo will fail both GitHub Actions and Railway.
+2. Push `main` from your machine (this cloud environment cannot log in to GitHub):
+
+```bash
+cd addhyan-blueprint
+git remote add github https://github.com/yatiresource00-afk/Addhyan.git
+git push -u github main
+```
+
+3. On Railway, set `AUTH_SECRET` and attach a volume at `/data` with `DATABASE_URL=file:/data/addhyan.db`.
+4. Redeploy after the GitHub push.
+
+Build no longer requires `DATABASE_URL` at compile time (`prisma generate` uses a fallback file URL). Prisma CLI is a production dependency so Nixpacks `npm ci` can generate the client.
 
 ## 2. Add a persistent volume (required for accounts)
 

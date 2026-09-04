@@ -24,6 +24,10 @@ try {
   // Hosting platforms inject env vars; a local .env is optional.
 }
 
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = "file:./data/addhyan.db";
+}
+
 const port = Number.parseInt(process.env.PORT ?? "43123", 10);
 const hostname = process.env.HOST ?? "0.0.0.0";
 const dev = process.env.NODE_ENV === "development";
