@@ -109,6 +109,18 @@ If a service already exists:
 
 That is normal. Continue Part C, then **Redeploy**.
 
+### B4. If Railpack says it only found `README.md`
+
+Railway cloned an **empty** GitHub snapshot (the first README-only commit), or **Root Directory** is wrong.
+
+1. Open https://github.com/yatiresource00-afk/Addhyan — you must see `package.json`, not only `README.md`.
+2. In Railway → service → **Settings → Source**:
+   - Repo: `yatiresource00-afk/Addhyan`
+   - Branch: `main`
+   - **Root Directory**: leave **blank**
+3. **Deployments → Deploy** the latest commit (not the old “Initial commit”).
+4. Push any new commits from Ubuntu so Railway sees `package.json` and `railpack.json`.
+
 ---
 
 ## Part C — Railway variables and disk (required)
