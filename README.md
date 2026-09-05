@@ -1,9 +1,10 @@
-<<<<<<< HEAD
 # Addhyan Academy website
 
 Public marketing site for **Addhyan Academy**, part of Yati Resource Private Limited. Programmes cover job readiness, career growth and practical AI skills.
 
 Includes register / sign in (SQLite on the Node server). Enrolment, payments and the lesson player are still **coming soon**.
+
+**GitHub:** [https://github.com/yatiresource00-afk/Addhyan](https://github.com/yatiresource00-afk/Addhyan)
 
 **Browse codebase:** [cursor.com/codebase/yati-resource-accounts/addhyan-blueprint](https://cursor.com/codebase/yati-resource-accounts/addhyan-blueprint) (private)
 
@@ -31,8 +32,6 @@ npm run build
 
 - GitHub: https://github.com/yatiresource00-afk/Addhyan
 - Railway: https://railway.com/project/da6761a8-5482-4e5a-931b-3d38f8125378
-
-You must push this project to GitHub `main` from WSL first. Railway cannot build an empty GitHub repo.
 
 ## Host with Node.js (any VPS)
 
@@ -72,6 +71,3 @@ Origin CLI docs: [cursor.com/docs/origin/cli](https://cursor.com/docs/origin/cli
 ## Stack
 
 Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui, Prisma + SQLite, Node `server.mjs`.
-=======
-# Addhyan
->>>>>>> 3f48ab6e57d469eda823473707dc2d2f2a11abf0

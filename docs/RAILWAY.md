@@ -119,7 +119,8 @@ Railway cloned an **empty** GitHub snapshot (the first README-only commit), or *
    - Branch: `main`
    - **Root Directory**: leave **blank**
 3. **Deployments → Deploy** the latest commit (not the old “Initial commit”).
-4. Push any new commits from Ubuntu so Railway sees `package.json` and `railpack.json`.
+4. Push the latest code from Ubuntu so GitHub includes `Dockerfile` and `package.json`.
+5. In Railway → **Settings → Build**, set builder to **Dockerfile** (not Railpack).
 
 ---
 
