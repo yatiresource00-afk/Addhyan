@@ -1,72 +1,60 @@
 # Addhyan Academy website
 
-Public marketing site for **Addhyan Academy**, part of Yati Resource Private Limited. Programmes cover job readiness, career growth and practical AI skills.
-
-Includes register / sign in (SQLite on the Node server). Enrolment, payments and the lesson player are still **coming soon**.
+Public site + learning portal for **Addhyan Academy**, part of Yati Resource Private Limited.
 
 **GitHub:** [https://github.com/yatiresource00-afk/Addhyan](https://github.com/yatiresource00-afk/Addhyan)
-
-**Browse codebase:** [cursor.com/codebase/yati-resource-accounts/addhyan-blueprint](https://cursor.com/codebase/yati-resource-accounts/addhyan-blueprint) (private)
 
 ## Run locally
 
 ```bash
 npm install
 cp .env.example .env   # set AUTH_SECRET
-npx prisma migrate deploy
+npm run db:setup       # migrate + seed demo users/lessons
 npm run dev
 ```
 
 Open [http://127.0.0.1:43123](http://127.0.0.1:43123).
 
-```bash
-npm run typecheck
-npm run lint
-npm test
-npm run build
-```
+### Demo accounts (after seed)
 
-## Deploy on Railway (GitHub → live site)
-
-**Full step-by-step:** **[docs/RAILWAY.md](docs/RAILWAY.md)**
-
-- GitHub: https://github.com/yatiresource00-afk/Addhyan
-- Railway: https://railway.com/project/da6761a8-5482-4e5a-931b-3d38f8125378
-
-## Host with Node.js (any VPS)
-
-```bash
-npm install
-npx prisma migrate deploy
-npm run build
-npm start
-```
-
-| Variable | Local | Railway |
+| Role | Email | Password |
 |---|---|---|
-| `DATABASE_URL` | `file:../data/addhyan.db` | `file:/data/addhyan.db` |
-| `AUTH_SECRET` | required in production | required |
-| `PORT` | `43123` | set by Railway |
-| `HOST` | `0.0.0.0` | `0.0.0.0` |
+| Director | `director@addhyan.academy` | `Director@Addhyan1` |
+| Moderator | `moderator@addhyan.academy` | `Moderator@Addhyan1` |
+| Student | `student@addhyan.academy` | `Student@Addhyan1` |
 
-## What is in this release
+Student WhatsApp demo number: `+919900000003` · Director: `+919900000001`
 
-- Home, courses catalogue, reusable course pages from `src/data/offerings.ts`
-- Register, sign in, account page (SQLite)
-- About, FAQ, Contact, Terms, Privacy
-- Career Counselling, Corporate Training, Franchise, Find My Course, CSR
-- **Coming soon:** enrolment/payment, counselling booking, corporate/franchise/contact forms, CSR applications
-- **Live in browser:** Find My Course rule matcher
+## Sign-in options
 
-## Clone (Windows → WSL)
+- **Students:** `/login` — password, email OTP, or WhatsApp OTP → `/learn`
+- **Moderators / Directors:** `/admin/login` — same methods → `/admin`
+- Without `RESEND_API_KEY` / Twilio keys, OTP is logged and shown in the UI (dev mode)
+
+## Environment
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | SQLite path |
+| `AUTH_SECRET` | JWT session secret |
+| `RESEND_API_KEY` / `EMAIL_FROM` | Live email OTP |
+| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_WHATSAPP_FROM` | Live WhatsApp OTP |
+
+## Deploy on Railway
+
+See **[docs/RAILWAY.md](docs/RAILWAY.md)**. After deploy, run seed once (or set a one-off start command) so admin/student demos and lessons exist:
 
 ```bash
-curl -fsSL https://downloads.cursor.com/origin/install.sh | sh
-origin auth login
-origin repo clone yati-resource-accounts/addhyan-blueprint
+npm run db:seed
 ```
 
-Origin CLI docs: [cursor.com/docs/origin/cli](https://cursor.com/docs/origin/cli)
+## What is included
+
+- Marketing pages (home, courses, about, FAQ, contact, …)
+- Student portal: enrolled courses, video modules, progress
+- Administration: users, roles, enrolments, lessons, site settings
+- OTP login (email + WhatsApp) with provider hooks
+- **Coming soon:** paid checkout, public enquiry forms that need an inbox
 
 ## Stack
 

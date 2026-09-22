@@ -4,8 +4,8 @@ import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
 
 export const metadata: Metadata = {
-  title: "Sign in",
-  description: "Sign in to your Addhyan Academy account.",
+  title: "Student sign in",
+  description: "Sign in to Addhyan Academy with password, email OTP or WhatsApp OTP.",
 };
 
 export default function LoginPage() {
@@ -13,9 +13,9 @@ export default function LoginPage() {
     <div className="py-12 sm:py-16">
       <Container className="mx-auto max-w-md space-y-8">
         <PageHeader
-          eyebrow="Account"
-          title="Sign in"
-          description="Use the email and password you registered with. This runs on this site’s Node.js database — not a third-party login provider."
+          eyebrow="Students"
+          title="Student sign in"
+          description="Use password, email OTP or WhatsApp OTP. After signing in you can open your courses, video modules and progress."
         />
         <AuthForm mode="login" />
       </Container>

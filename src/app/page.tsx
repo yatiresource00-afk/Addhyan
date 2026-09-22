@@ -7,6 +7,7 @@ import { CtaBand } from "@/components/sections/CtaBand";
 import { Container } from "@/components/layout/Container";
 import { featuredOfferings, getOfferingBySlug } from "@/data/offerings";
 import { siteFaqs } from "@/data/faqs";
+import { getSiteSettingsMap } from "@/lib/learning/queries";
 import { Briefcase, GraduationCap, Sparkles, Users } from "lucide-react";
 
 const why = [
@@ -59,11 +60,18 @@ const categories = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
   const csr = getOfferingBySlug("csr");
+  const settings = await getSiteSettingsMap();
+  const announcement = settings.announcement?.trim();
 
   return (
     <>
+      {announcement ? (
+        <div className="border-b border-border bg-secondary">
+          <Container className="py-2.5 text-center text-sm text-navy">{announcement}</Container>
+        </div>
+      ) : null}
       <HomeHero />
       <section className="py-16">
         <Container className="grid gap-10 lg:grid-cols-2">

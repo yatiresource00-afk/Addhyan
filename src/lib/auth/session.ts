@@ -1,12 +1,17 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import type { Role } from "@prisma/client";
 import { SESSION_COOKIE } from "@/lib/auth/constants";
+import { isStaffRole } from "@/lib/auth/roles";
+
 const SESSION_DAYS = 7;
 
 export type SessionUser = {
   id: string;
   email: string;
   name: string;
+  role: Role;
+  phone?: string | null;
 };
 
 function getSecretBytes() {
@@ -18,7 +23,12 @@ function getSecretBytes() {
 }
 
 export async function createSessionToken(user: SessionUser) {
-  return new SignJWT({ email: user.email, name: user.name })
+  return new SignJWT({
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    phone: user.phone ?? null,
+  })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(user.id)
     .setIssuedAt()
@@ -26,13 +36,28 @@ export async function createSessionToken(user: SessionUser) {
     .sign(getSecretBytes());
 }
 
+function isRole(value: unknown): value is Role {
+  return value === "STUDENT" || value === "MODERATOR" || value === "DIRECTOR";
+}
+
 export async function readSessionToken(token: string): Promise<SessionUser | null> {
   try {
     const { payload } = await jwtVerify(token, getSecretBytes());
-    if (!payload.sub || typeof payload.email !== "string" || typeof payload.name !== "string") {
+    if (
+      !payload.sub ||
+      typeof payload.email !== "string" ||
+      typeof payload.name !== "string" ||
+      !isRole(payload.role)
+    ) {
       return null;
     }
-    return { id: payload.sub, email: payload.email, name: payload.name };
+    return {
+      id: payload.sub,
+      email: payload.email,
+      name: payload.name,
+      role: payload.role,
+      phone: typeof payload.phone === "string" ? payload.phone : null,
+    };
   } catch {
     return null;
   }
@@ -60,4 +85,16 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   const token = jar.get(SESSION_COOKIE)?.value;
   if (!token) return null;
   return readSessionToken(token);
+}
+
+export async function requireUser() {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  return user;
+}
+
+export async function requireStaff() {
+  const user = await getCurrentUser();
+  if (!user || !isStaffRole(user.role)) return null;
+  return user;
 }

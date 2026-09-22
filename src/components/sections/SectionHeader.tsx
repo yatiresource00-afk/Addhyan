@@ -4,13 +4,15 @@ export function PageHeader({
   eyebrow,
   title,
   description,
+  className,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
+  className?: string;
 }) {
   return (
-    <header className="animate-fade-up max-w-3xl space-y-3">
+    <header className={cn("animate-fade-up max-w-3xl space-y-3", className)}>
       {eyebrow ? (
         <p className="text-primary text-sm font-semibold tracking-wide uppercase">
           {eyebrow}

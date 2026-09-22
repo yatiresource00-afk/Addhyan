@@ -36,7 +36,11 @@ export const metadata: Metadata = {
   icons: { icon: site.logo },
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const user = await getCurrentUser();
   return (
     <html

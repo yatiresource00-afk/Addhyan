@@ -8,9 +8,11 @@
   "scripts": {
     "dev": "next dev --hostname 0.0.0.0 --port 43123",
     "build": "node scripts/with-database-url.mjs generate && next build",
-    "start": "node scripts/with-database-url.mjs migrate deploy && NODE_ENV=production node server.mjs",
+    "start": "node scripts/with-database-url.mjs migrate deploy && node scripts/with-database-url.mjs seed && NODE_ENV=production node server.mjs",
     "postinstall": "node scripts/with-database-url.mjs generate",
     "db:migrate": "prisma migrate dev",
+    "db:seed": "node scripts/with-database-url.mjs seed",
+    "db:setup": "node scripts/with-database-url.mjs migrate deploy && node scripts/with-database-url.mjs seed",
     "start:next": "next start --hostname 0.0.0.0 --port 43123",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

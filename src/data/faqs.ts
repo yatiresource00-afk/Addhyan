@@ -32,12 +32,17 @@ export const siteFaqs = [
   {
     question: "Can I pay and start learning online today?",
     answer:
-      "You can create an account and sign in. Enrolment, payment and the lesson player are coming soon. You can still read programme pages and use Find My Course in your browser.",
+      "Students can register, sign in (password, email OTP or WhatsApp OTP) and open enrolled courses with video modules and progress. Paid checkout is still coming soon — Moderators/Directors enrol students from Administration.",
   },
   {
     question: "How do I create an account?",
     answer:
-      "Use Register in the header. Accounts are stored on this website’s Node.js database. Email verification is not required yet.",
+      "Use Register for a student account. Staff (Moderators and Directors) use Administration sign in. Email or WhatsApp OTP works after your number/email is on the account. Without Resend/Twilio keys, OTP is shown on screen in development.",
+  },
+  {
+    question: "Who can use Administration?",
+    answer:
+      "Only Moderators and Directors. They can manage users, enrolments, video lessons and site settings. Students use My learning for courses and progress.",
   },
   {
     question: "Do you offer corporate training or franchise partnerships?",

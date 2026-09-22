@@ -12,10 +12,13 @@ import { cn } from "@/lib/utils";
 export function SiteHeader({
   user,
 }: {
-  user: { name: string } | null;
+  user: { name: string; role?: string } | null;
 }) {
   const [open, setOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
+  const isStaff = user?.role === "MODERATOR" || user?.role === "DIRECTOR";
+  const accountHref = isStaff ? "/admin" : "/learn";
+  const accountLabel = isStaff ? "Admin" : "My learning";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-white/95 backdrop-blur-sm">
@@ -81,10 +84,10 @@ export function SiteHeader({
         <div className="hidden items-center gap-2 lg:flex">
           {user ? (
             <Link
-              href="/account"
+              href={accountHref}
               className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
             >
-              Account
+              {accountLabel}
             </Link>
           ) : (
             <>
@@ -92,7 +95,13 @@ export function SiteHeader({
                 href="/login"
                 className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
               >
-                Sign in
+                Student sign in
+              </Link>
+              <Link
+                href="/admin/login"
+                className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
+              >
+                Admin
               </Link>
               <Link href="/register" className={cn(buttonVariants({ size: "lg" }), "h-10 px-4")}>
                 Register
@@ -156,13 +165,16 @@ export function SiteHeader({
               </div>
             ))}
             {user ? (
-              <Link href="/account" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
-                Account
+              <Link href={accountHref} className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
+                {accountLabel}
               </Link>
             ) : (
               <>
                 <Link href="/login" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
-                  Sign in
+                  Student sign in
+                </Link>
+                <Link href="/admin/login" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
+                  Admin sign in
                 </Link>
                 <Link
                   href="/register"

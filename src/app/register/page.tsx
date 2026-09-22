@@ -4,8 +4,8 @@ import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
 
 export const metadata: Metadata = {
-  title: "Create account",
-  description: "Register for an Addhyan Academy account.",
+  title: "Create student account",
+  description: "Register for an Addhyan Academy student account.",
 };
 
 export default function RegisterPage() {
@@ -13,9 +13,9 @@ export default function RegisterPage() {
     <div className="py-12 sm:py-16">
       <Container className="mx-auto max-w-md space-y-8">
         <PageHeader
-          eyebrow="Account"
-          title="Create an account"
-          description="Registration stores your account on this server. Course enrolment and the learning dashboard are still coming soon."
+          eyebrow="Students"
+          title="Create student account"
+          description="Register with email and an optional WhatsApp number so you can sign in with OTP later."
         />
         <AuthForm mode="register" />
       </Container>

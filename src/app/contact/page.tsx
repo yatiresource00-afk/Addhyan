@@ -3,30 +3,37 @@ import { Container } from "@/components/layout/Container";
 import { PageHeader } from "@/components/sections/SectionHeader";
 import { ComingSoonNotice } from "@/components/states/ComingSoonNotice";
 import { site } from "@/data/site";
+import { getSiteSettingsMap } from "@/lib/learning/queries";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact details for Addhyan Academy. The message form is coming soon until an official inbox is connected.",
+  description:
+    "Contact details for Addhyan Academy. The message form is coming soon until an official inbox is connected.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettingsMap();
+  const email = settings.contact_email || site.contact.email;
+  const phone = settings.contact_phone || site.contact.phone;
+  const address = settings.contact_address || site.contact.address;
+
   return (
     <div className="py-12 sm:py-16">
       <Container className="grid gap-10 lg:grid-cols-2">
         <PageHeader
           eyebrow="Contact"
           title="Talk to Addhyan"
-          description="Official phone, email and postal address will replace the placeholders below when they are published. The send-message form is coming soon."
+          description="Contact details below can be updated by Moderators and Directors in Administration → Site settings."
         />
         <div className="space-y-4 rounded-xl border border-border bg-white p-5 text-sm">
           <p>
-            <span className="font-medium">Email:</span> {site.contact.email}
+            <span className="font-medium">Email:</span> {email}
           </p>
           <p>
-            <span className="font-medium">Phone:</span> {site.contact.phone}
+            <span className="font-medium">Phone:</span> {phone}
           </p>
           <p>
-            <span className="font-medium">Address:</span> {site.contact.address}
+            <span className="font-medium">Address:</span> {address}
           </p>
           <p className="text-muted-foreground">{site.contact.note}</p>
         </div>
