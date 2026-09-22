@@ -135,6 +135,11 @@ Open the service → **Variables** → add:
 | `AUTH_SECRET` | A long random string (32+ characters) |
 | `DATABASE_URL` | `file:/data/addhyan.db` |
 | `HOST` | `0.0.0.0` |
+| `RESEND_API_KEY` | Optional — live email OTP (without it, OTP shows in UI) |
+| `EMAIL_FROM` | Optional — e.g. `Addhyan Academy <hello@…>` |
+| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_WHATSAPP_FROM` | Optional — live WhatsApp OTP |
+
+`npm start` runs migrations and seeds demo Director / Moderator / Student accounts plus sample video lessons.
 
 **Do not set `PORT`.** Railway injects it.
 
