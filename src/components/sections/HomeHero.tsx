@@ -42,10 +42,10 @@ export function HomeHero() {
               Explore programmes
             </Link>
             <Link
-              href="/find-my-course"
+              href="/#sign-in"
               className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11 px-5")}
             >
-              Find my course
+              Student / Admin login
             </Link>
           </div>
           <p className="text-muted-foreground text-sm">{site.affiliation}</p>

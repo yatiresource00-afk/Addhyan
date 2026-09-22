@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HomeHero } from "@/components/sections/HomeHero";
+import { LoginAccessSection } from "@/components/sections/LoginAccessSection";
 import { SectionHeader } from "@/components/sections/SectionHeader";
 import { CourseGrid } from "@/components/course/CourseGrid";
 import { FaqList } from "@/components/sections/FaqList";
@@ -73,6 +74,7 @@ export default async function HomePage() {
         </div>
       ) : null}
       <HomeHero />
+      <LoginAccessSection />
       <section className="py-16">
         <Container className="grid gap-10 lg:grid-cols-2">
           <div className="space-y-4">

@@ -81,11 +81,11 @@ export function SiteHeader({
             )
           )}
         </nav>
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-2 md:flex">
           {user ? (
             <Link
               href={accountHref}
-              className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
+              className={cn(buttonVariants({ size: "lg" }), "h-10 px-4")}
             >
               {accountLabel}
             </Link>
@@ -93,31 +93,28 @@ export function SiteHeader({
             <>
               <Link
                 href="/login"
-                className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
+                className={cn(buttonVariants({ size: "lg" }), "h-10 px-4")}
               >
-                Student sign in
+                Student login
               </Link>
               <Link
                 href="/admin/login"
-                className="text-foreground hover:text-navy rounded-md px-3 py-2 text-sm font-medium"
+                className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-10 px-4")}
               >
-                Admin
+                Admin login
               </Link>
-              <Link href="/register" className={cn(buttonVariants({ size: "lg" }), "h-10 px-4")}>
+              <Link
+                href="/register"
+                className={cn(buttonVariants({ variant: "secondary", size: "lg" }), "h-10 px-4")}
+              >
                 Register
               </Link>
             </>
           )}
-          <Link
-            href="/find-my-course"
-            className={cn(buttonVariants({ variant: user ? "default" : "outline", size: "lg" }), "h-10 px-4")}
-          >
-            Find my course
-          </Link>
         </div>
         <button
           type="button"
-          className="inline-flex size-10 items-center justify-center rounded-md border border-border lg:hidden"
+          className="inline-flex size-10 items-center justify-center rounded-md border border-border md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
@@ -129,7 +126,7 @@ export function SiteHeader({
       {open ? (
         <div
           id="mobile-nav"
-          className="border-t border-border bg-white lg:hidden"
+          className="border-t border-border bg-white md:hidden"
         >
           <Container className="space-y-4 py-4">
             {nav.primary
@@ -165,20 +162,28 @@ export function SiteHeader({
               </div>
             ))}
             {user ? (
-              <Link href={accountHref} className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
+              <Link href={accountHref} className={cn(buttonVariants({ size: "lg" }), "h-11 w-full")} onClick={() => setOpen(false)}>
                 {accountLabel}
               </Link>
             ) : (
               <>
-                <Link href="/login" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
-                  Student sign in
+                <Link
+                  href="/login"
+                  className={cn(buttonVariants({ size: "lg" }), "h-11 w-full")}
+                  onClick={() => setOpen(false)}
+                >
+                  Student login
                 </Link>
-                <Link href="/admin/login" className="block py-1 text-base font-medium" onClick={() => setOpen(false)}>
-                  Admin sign in
+                <Link
+                  href="/admin/login"
+                  className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11 w-full")}
+                  onClick={() => setOpen(false)}
+                >
+                  Admin login
                 </Link>
                 <Link
                   href="/register"
-                  className={cn(buttonVariants({ size: "lg" }), "h-11 w-full")}
+                  className={cn(buttonVariants({ variant: "secondary", size: "lg" }), "h-11 w-full")}
                   onClick={() => setOpen(false)}
                 >
                   Register
