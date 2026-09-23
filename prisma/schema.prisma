@@ -107,3 +107,11 @@ model SiteSetting {
   value     String
   updatedAt DateTime @updatedAt
 }
+
+model SiteImage {
+  id        String   @id @default(cuid())
+  filename  String   @unique
+  alt       String
+  placement String   @default("gallery")
+  createdAt DateTime @default(now())
+}

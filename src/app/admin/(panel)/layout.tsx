@@ -11,6 +11,7 @@ const links = [
   { href: "/admin/users", label: "Users" },
   { href: "/admin/enrollments", label: "Enrolments" },
   { href: "/admin/lessons", label: "Video lessons" },
+  { href: "/admin/images", label: "Images" },
   { href: "/admin/settings", label: "Site settings" },
 ];
 

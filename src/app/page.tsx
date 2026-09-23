@@ -9,6 +9,7 @@ import { Container } from "@/components/layout/Container";
 import { featuredOfferings, getOfferingBySlug } from "@/data/offerings";
 import { siteFaqs } from "@/data/faqs";
 import { getSiteSettingsMap } from "@/lib/learning/queries";
+import { prisma } from "@/lib/db";
 import { Briefcase, GraduationCap, Sparkles, Users } from "lucide-react";
 
 const why = [
@@ -65,6 +66,9 @@ export default async function HomePage() {
   const csr = getOfferingBySlug("csr");
   const settings = await getSiteSettingsMap();
   const announcement = settings.announcement?.trim();
+  const images = await prisma.siteImage.findMany({ orderBy: { createdAt: "desc" } });
+  const hero = images.find((image) => image.placement === "hero");
+  const gallery = images.filter((image) => image.placement === "gallery");
 
   return (
     <>
@@ -73,7 +77,32 @@ export default async function HomePage() {
           <Container className="py-2.5 text-center text-sm text-navy">{announcement}</Container>
         </div>
       ) : null}
-      <HomeHero />
+      <HomeHero
+        photo={hero ? { src: `/media/${hero.filename}`, alt: hero.alt } : null}
+      />
+      {gallery.length > 0 ? (
+        <section className="py-16">
+          <Container className="space-y-8">
+            <SectionHeader
+              eyebrow="Campus"
+              title="Addhyan Academy in pictures"
+              description="Photos added by the academy."
+            />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {gallery.map((image) => (
+                <figure key={image.id} className="overflow-hidden rounded-xl border border-border bg-white">
+                  <img
+                    src={`/media/${image.filename}`}
+                    alt={image.alt}
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                  <figcaption className="text-muted-foreground px-4 py-3 text-sm">{image.alt}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
       <LoginAccessSection />
       <section className="py-16">
         <Container className="grid gap-10 lg:grid-cols-2">

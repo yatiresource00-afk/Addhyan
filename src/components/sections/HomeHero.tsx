@@ -5,7 +5,11 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-export function HomeHero() {
+export function HomeHero({
+  photo,
+}: {
+  photo?: { src: string; alt: string } | null;
+}) {
   return (
     <section className="relative overflow-hidden">
       <div
@@ -51,14 +55,22 @@ export function HomeHero() {
           <p className="text-muted-foreground text-sm">{site.affiliation}</p>
         </div>
         <div className="animate-fade-up mx-auto max-w-md lg:max-w-none">
-          <Image
-            src={site.logo}
-            alt="Addhyan Academy official logo: a book, learners and a star forming a tree of knowledge"
-            width={640}
-            height={640}
-            priority
-            className="h-auto w-full"
-          />
+          {photo ? (
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              className="aspect-[4/3] w-full rounded-2xl object-cover"
+            />
+          ) : (
+            <Image
+              src={site.logo}
+              alt="Addhyan Academy official logo: a book, learners and a star forming a tree of knowledge"
+              width={640}
+              height={640}
+              priority
+              className="h-auto w-full"
+            />
+          )}
         </div>
       </Container>
     </section>
