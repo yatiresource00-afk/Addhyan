@@ -27,7 +27,7 @@ export async function sendEmailOtp(
   message?: { subject: string; text: string }
 ): Promise<SendResult> {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM?.trim() || DEFAULT_FROM;
+  const from = DEFAULT_FROM;
 
   if (!apiKey) {
     if (isProduction()) {
@@ -60,10 +60,16 @@ export async function sendEmailOtp(
     if (!response.ok) {
       const body = await response.text();
       console.error("[OTP:email] provider error", response.status, body);
+      let detail = "";
+      try {
+        const parsed = JSON.parse(body) as { message?: string };
+        if (parsed.message) detail = ` ${parsed.message}`;
+      } catch {
+        detail = "";
+      }
       return {
         ok: false,
-        error:
-          "Could not send the email. Check that EMAIL_FROM is a verified Resend sender.",
+        error: `Could not send from ${ACADEMY_MAILBOX}. In Resend, open Domains and verify addhyanacademy.com, then try again.${detail}`,
       };
     }
     return { ok: true, mode: "live" };
