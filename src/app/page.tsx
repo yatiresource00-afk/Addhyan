@@ -136,7 +136,7 @@ export default async function HomePage() {
           <SectionHeader
             eyebrow="Programmes"
             title="Featured courses"
-            description="Four paid programmes with published prices. You can read each curriculum now. Online enrolment and payment are coming soon."
+            description="Four paid programmes with published prices. Enrollment has started. Create a student account to join."
           />
           <CourseGrid offerings={featuredOfferings()} />
         </Container>

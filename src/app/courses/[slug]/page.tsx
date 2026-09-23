@@ -169,14 +169,29 @@ export default async function CourseDetailPage({ params }: Props) {
         </article>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <ComingSoonNotice
-            title={offering.intakeLabel}
-            description={
-              offering.category === "coming-soon" || offering.status === "coming-soon"
-                ? "This category is not open yet. Programme pages are here so you can see what is planned."
-                : "Online enrolment, payment, login and lesson access need systems that are not on this website yet. You can read the curriculum here; starting the course is coming soon."
-            }
-          />
+          {offering.intake === "live" ? (
+            <aside className="rounded-xl border border-border bg-white p-5">
+              <p className="bg-green inline-flex rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide text-white uppercase">
+                Enrollment Started
+              </p>
+              <h2 className="mt-3 text-xl font-semibold">You can join this programme</h2>
+              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                Create a student account with your email. A moderator will enrol you so you can open the video lessons.
+              </p>
+              <Link href="/register" className="text-primary mt-4 inline-flex text-sm font-semibold">
+                Create student account
+              </Link>
+            </aside>
+          ) : (
+            <ComingSoonNotice
+              title={offering.intakeLabel}
+              description={
+                offering.category === "coming-soon" || offering.status === "coming-soon"
+                  ? "This category is not open yet. Programme pages are here so you can see what is planned."
+                  : "This request is not open on the website yet."
+              }
+            />
+          )}
           <p className="text-muted-foreground mt-4 text-xs">
             Unsure which programme fits?{" "}
             <Link href="/find-my-course" className="text-primary">

@@ -41,7 +41,9 @@ export function CourseCard({ offering }: { offering: Offering }) {
         <CardHeader className="gap-2">
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">{statusLabel(offering)}</Badge>
-            {offering.intake === "coming-soon" && offering.status !== "coming-soon" ? (
+            {offering.intake === "live" ? (
+              <Badge className="bg-green text-white">{offering.intakeLabel}</Badge>
+            ) : offering.intake === "coming-soon" && offering.status !== "coming-soon" ? (
               <Badge variant="outline">{offering.intakeLabel}</Badge>
             ) : null}
             <Badge variant="outline">{offering.level}</Badge>

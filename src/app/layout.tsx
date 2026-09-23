@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Source_Sans_3 } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { PujaOfferPopup } from "@/components/sections/PujaOfferPopup";
 import { getCurrentUser } from "@/lib/auth/session";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -54,6 +55,7 @@ export default async function RootLayout({
           {children}
         </main>
         <SiteFooter />
+        <PujaOfferPopup />
       </body>
     </html>
   );
