@@ -2,11 +2,35 @@ type SendResult =
   | { ok: true; mode: "live" | "dev" }
   | { ok: false; error: string };
 
+function isProduction() {
+  return process.env.NODE_ENV === "production";
+}
+
+export function otpProviderStatus() {
+  const emailFrom = process.env.EMAIL_FROM?.trim() || "";
+  return {
+    email: Boolean(process.env.RESEND_API_KEY && emailFrom),
+    whatsapp: Boolean(
+      process.env.TWILIO_ACCOUNT_SID &&
+        process.env.TWILIO_AUTH_TOKEN &&
+        process.env.TWILIO_WHATSAPP_FROM
+    ),
+    whatsappTemplate: Boolean(process.env.TWILIO_WHATSAPP_CONTENT_SID),
+  };
+}
+
 export async function sendEmailOtp(to: string, code: string): Promise<SendResult> {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM || "Addhyan Academy <onboarding@resend.dev>";
+  const from = process.env.EMAIL_FROM?.trim();
 
-  if (!apiKey) {
+  if (!apiKey || !from) {
+    if (isProduction()) {
+      return {
+        ok: false,
+        error:
+          "Email OTP is not configured yet. Add RESEND_API_KEY and EMAIL_FROM on the server.",
+      };
+    }
     console.info(`[OTP:email:dev] ${to} → ${code}`);
     return { ok: true, mode: "dev" };
   }
@@ -28,7 +52,11 @@ export async function sendEmailOtp(to: string, code: string): Promise<SendResult
     if (!response.ok) {
       const body = await response.text();
       console.error("[OTP:email] provider error", response.status, body);
-      return { ok: false, error: "Could not send email OTP. Try again shortly." };
+      return {
+        ok: false,
+        error:
+          "Could not send the email. Check that EMAIL_FROM is a verified Resend sender.",
+      };
     }
     return { ok: true, mode: "live" };
   } catch (error) {
@@ -40,18 +68,37 @@ export async function sendEmailOtp(to: string, code: string): Promise<SendResult
 export async function sendWhatsAppOtp(to: string, code: string): Promise<SendResult> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_WHATSAPP_FROM; // e.g. whatsapp:+14155238886
+  const from = process.env.TWILIO_WHATSAPP_FROM;
+  const contentSid = process.env.TWILIO_WHATSAPP_CONTENT_SID?.trim();
 
   if (!sid || !token || !from) {
+    if (isProduction()) {
+      return {
+        ok: false,
+        error:
+          "WhatsApp OTP is not configured yet. Add the Twilio variables on the server.",
+      };
+    }
     console.info(`[OTP:whatsapp:dev] ${to} → ${code}`);
     return { ok: true, mode: "dev" };
   }
 
+  const toAddress = to.startsWith("whatsapp:") ? to : `whatsapp:${to}`;
+  const fromAddress = from.startsWith("whatsapp:") ? from : `whatsapp:${from}`;
   const body = new URLSearchParams({
-    To: to.startsWith("whatsapp:") ? to : `whatsapp:${to}`,
-    From: from.startsWith("whatsapp:") ? from : `whatsapp:${from}`,
-    Body: `Your Addhyan Academy verification code is ${code}. It expires in 10 minutes.`,
+    To: toAddress,
+    From: fromAddress,
   });
+
+  if (contentSid) {
+    body.set("ContentSid", contentSid);
+    body.set("ContentVariables", JSON.stringify({ "1": code }));
+  } else {
+    body.set(
+      "Body",
+      `Your Addhyan Academy verification code is ${code}. It expires in 10 minutes.`
+    );
+  }
 
   try {
     const response = await fetch(
@@ -68,7 +115,11 @@ export async function sendWhatsAppOtp(to: string, code: string): Promise<SendRes
     if (!response.ok) {
       const text = await response.text();
       console.error("[OTP:whatsapp] provider error", response.status, text);
-      return { ok: false, error: "Could not send WhatsApp OTP. Try again shortly." };
+      return {
+        ok: false,
+        error:
+          "Could not send the WhatsApp message. Check the Twilio sender number and template.",
+      };
     }
     return { ok: true, mode: "live" };
   } catch (error) {

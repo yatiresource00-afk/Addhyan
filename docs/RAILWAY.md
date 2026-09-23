@@ -135,9 +135,12 @@ Open the service → **Variables** → add:
 | `AUTH_SECRET` | A long random string (32+ characters) |
 | `DATABASE_URL` | `file:/data/addhyan.db` |
 | `HOST` | `0.0.0.0` |
-| `RESEND_API_KEY` | Optional — live email OTP (without it, OTP shows in UI) |
-| `EMAIL_FROM` | Optional — e.g. `Addhyan Academy <hello@…>` |
-| `TWILIO_ACCOUNT_SID` / `TWILIO_AUTH_TOKEN` / `TWILIO_WHATSAPP_FROM` | Optional — live WhatsApp OTP |
+| `RESEND_API_KEY` | Resend API key for real email OTP |
+| `EMAIL_FROM` | Verified sender, e.g. `Addhyan Academy <hello@addhyan.academy>` |
+| `TWILIO_ACCOUNT_SID` | Twilio account SID |
+| `TWILIO_AUTH_TOKEN` | Twilio auth token |
+| `TWILIO_WHATSAPP_FROM` | Sender, e.g. `whatsapp:+14155238886` |
+| `TWILIO_WHATSAPP_CONTENT_SID` | Approved WhatsApp template whose first variable is the code |
 
 `npm start` runs migrations and seeds demo Director / Moderator / Student accounts plus sample video lessons.
 
@@ -150,6 +153,33 @@ openssl rand -base64 32
 ```
 
 Paste the output as the value. No quotes.
+
+### C1b. Turn on real email and WhatsApp OTP
+
+The website sends OTP only after these accounts exist. Railway cannot create them for you.
+
+**Email (Resend)**
+
+1. Create an account at https://resend.com
+2. Add and verify the domain `addhyanacademy.com` (DNS records Resend shows).
+3. Create an API key.
+4. In Railway → **Variables**, set:
+   - `RESEND_API_KEY` = the key (`re_...`)
+   - `EMAIL_FROM` = `Addhyan Academy <hello@addhyanacademy.com>`
+
+**WhatsApp (Twilio)**
+
+1. Create an account at https://www.twilio.com
+2. Enable WhatsApp and approve an authentication template whose first variable is the 6-digit code.
+3. In Railway → **Variables**, set:
+   - `TWILIO_ACCOUNT_SID`
+   - `TWILIO_AUTH_TOKEN`
+   - `TWILIO_WHATSAPP_FROM` = `whatsapp:+<your Twilio WhatsApp number>`
+   - `TWILIO_WHATSAPP_CONTENT_SID` = the approved template SID (`HX...`)
+
+Redeploy after saving variables. Then open **Administration → Site settings**. Email OTP and WhatsApp OTP should say **Ready**.
+
+Until those variables exist, production will refuse to show the code on the page. Password login still works.
 
 ### C2. Persistent volume (accounts)
 
