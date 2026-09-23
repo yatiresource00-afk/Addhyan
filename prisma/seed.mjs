@@ -161,7 +161,7 @@ async function main() {
   });
 
   const defaults = {
-    contact_email: "hello@addhyan.academy",
+    contact_email: "enquiry@addhyanacademy.com",
     contact_phone: "+91 00000 00000",
     contact_address: "Address to be confirmed",
     announcement: "Welcome to Addhyan Academy learning portal.",
@@ -171,7 +171,7 @@ async function main() {
   for (const [key, value] of Object.entries(defaults)) {
     await prisma.siteSetting.upsert({
       where: { key },
-      update: {},
+      update: key === "contact_email" ? { value } : {},
       create: { key, value },
     });
   }

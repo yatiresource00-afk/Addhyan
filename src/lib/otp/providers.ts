@@ -1,3 +1,6 @@
+export const ACADEMY_MAILBOX = "enquiry@addhyanacademy.com";
+const DEFAULT_FROM = `Addhyan Academy <${ACADEMY_MAILBOX}>`;
+
 type SendResult =
   | { ok: true; mode: "live" | "dev" }
   | { ok: false; error: string };
@@ -7,9 +10,8 @@ function isProduction() {
 }
 
 export function otpProviderStatus() {
-  const emailFrom = process.env.EMAIL_FROM?.trim() || "";
   return {
-    email: Boolean(process.env.RESEND_API_KEY && emailFrom),
+    email: Boolean(process.env.RESEND_API_KEY),
     whatsapp: Boolean(
       process.env.TWILIO_ACCOUNT_SID &&
         process.env.TWILIO_AUTH_TOKEN &&
@@ -25,14 +27,13 @@ export async function sendEmailOtp(
   message?: { subject: string; text: string }
 ): Promise<SendResult> {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM?.trim();
+  const from = process.env.EMAIL_FROM?.trim() || DEFAULT_FROM;
 
-  if (!apiKey || !from) {
+  if (!apiKey) {
     if (isProduction()) {
       return {
         ok: false,
-        error:
-          "Email OTP is not configured yet. Add RESEND_API_KEY and EMAIL_FROM on the server.",
+        error: "Email OTP is not configured yet. Add RESEND_API_KEY on the server.",
       };
     }
     console.info(`[OTP:email:dev] ${to} → ${code}`);
@@ -49,6 +50,7 @@ export async function sendEmailOtp(
       body: JSON.stringify({
         from,
         to: [to],
+        reply_to: ACADEMY_MAILBOX,
         subject: message?.subject ?? "Your Addhyan Academy login code",
         text:
           message?.text ??

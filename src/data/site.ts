@@ -8,10 +8,10 @@ export const site = {
   url: "https://addhyan.academy",
   logo: "/brand/addhyan-academy-logo.png",
   contact: {
-    email: "hello@addhyan.academy",
+    email: "enquiry@addhyanacademy.com",
     phone: "+91 00000 00000",
     address: "Address to be confirmed",
-    note: "Phone, email and address are placeholders until official contact details are published.",
+    note: "Phone and address will be updated when the official details are published.",
   },
 } as const;
 

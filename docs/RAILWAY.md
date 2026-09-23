@@ -136,7 +136,7 @@ Open the service → **Variables** → add:
 | `DATABASE_URL` | `file:/data/addhyan.db` |
 | `HOST` | `0.0.0.0` |
 | `RESEND_API_KEY` | Resend API key for real email OTP |
-| `EMAIL_FROM` | Verified sender, e.g. `Addhyan Academy <hello@addhyan.academy>` |
+| `EMAIL_FROM` | Optional. Defaults to `Addhyan Academy <enquiry@addhyanacademy.com>` |
 | `TWILIO_ACCOUNT_SID` | Twilio account SID |
 | `TWILIO_AUTH_TOKEN` | Twilio auth token |
 | `TWILIO_WHATSAPP_FROM` | Sender, e.g. `whatsapp:+14155238886` |
@@ -165,7 +165,7 @@ The website sends OTP only after these accounts exist. Railway cannot create the
 3. Create an API key.
 4. In Railway → **Variables**, set:
    - `RESEND_API_KEY` = the key (`re_...`)
-   - `EMAIL_FROM` = `Addhyan Academy <hello@addhyanacademy.com>`
+   - `EMAIL_FROM` = `Addhyan Academy <enquiry@addhyanacademy.com>`
 
 **WhatsApp (Twilio)**
 

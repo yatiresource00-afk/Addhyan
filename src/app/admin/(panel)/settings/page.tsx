@@ -26,7 +26,7 @@ export default async function AdminSettingsPage() {
           detail={
             otp.email
               ? "Resend is configured. Codes are emailed."
-              : "Set RESEND_API_KEY and EMAIL_FROM on Railway."
+              : "Set RESEND_API_KEY on Railway. Mail is sent from enquiry@addhyanacademy.com."
           }
         />
         <StatusCard
