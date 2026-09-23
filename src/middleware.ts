@@ -41,11 +41,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(dest, request.url));
   }
 
-  if (signedIn && (pathname === "/admin/login" || pathname === "/admin/signup")) {
-    if (isStaff(session?.role)) {
-      return NextResponse.redirect(new URL("/admin", request.url));
-    }
-    return NextResponse.redirect(new URL("/learn", request.url));
+  if (signedIn && isStaff(session?.role) && (pathname === "/admin/login" || pathname === "/admin/signup")) {
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 
   if (!signedIn && (pathname === "/account" || pathname.startsWith("/learn"))) {
@@ -65,10 +62,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(login);
   }
 
-  if (signedIn && pathname.startsWith("/admin") && pathname !== "/admin/login") {
-    if (!isStaff(session?.role)) {
-      return NextResponse.redirect(new URL("/learn", request.url));
-    }
+  if (
+    signedIn &&
+    !isStaff(session?.role) &&
+    pathname.startsWith("/admin") &&
+    pathname !== "/admin/login" &&
+    pathname !== "/admin/signup"
+  ) {
+    return NextResponse.redirect(new URL("/learn", request.url));
   }
 
   if (signedIn && pathname.startsWith("/learn") && isStaff(session?.role)) {

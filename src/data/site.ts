@@ -69,6 +69,7 @@ export const nav = {
     academy: [
       { href: "/login", label: "Student login" },
       { href: "/admin/login", label: "Admin login" },
+      { href: "/admin/signup", label: "Admin sign up" },
       { href: "/register", label: "Register" },
       { href: "/about", label: "About" },
       { href: "/faq", label: "FAQ" },

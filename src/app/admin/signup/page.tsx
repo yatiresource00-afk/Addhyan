@@ -16,9 +16,20 @@ export default function AdminSignupPage() {
         <PageHeader
           eyebrow="Administration"
           title="Create staff account"
-          description="Directors and Moderators only. Use the admin setup code. This page does not create student accounts."
+          description="Create a Director or Moderator. Setup code: AddhyanDirectorSetup. A ready Director account is also listed under the form."
         />
         <AdminSignupForm />
+        <div className="rounded-xl border border-border bg-white p-5 text-sm">
+          <p className="font-medium text-navy">Ready Director account</p>
+          <p className="text-muted-foreground mt-2">
+            Email: director@addhyan.academy
+            <br />
+            Password: Director@Addhyan1
+          </p>
+          <p className="text-muted-foreground mt-3">
+            Moderator: moderator@addhyan.academy / Moderator@Addhyan1
+          </p>
+        </div>
       </Container>
     </div>
   );
