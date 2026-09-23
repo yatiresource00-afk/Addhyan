@@ -18,6 +18,7 @@ import {
   type SessionUser,
 } from "@/lib/auth/session";
 import { isStaffRole, roleHomePath } from "@/lib/auth/roles";
+import { staffAssignmentFor } from "@/lib/auth/staff-allowlist";
 import {
   generateOtpCode,
   hashOtpCode,
@@ -123,7 +124,10 @@ async function passwordLogin(
   }
 
   if (opts.staffOnly && !isStaffRole(user.role)) {
-    return { error: "Administration access is only for Moderators and Directors." };
+    return { error: "Administration access is only for approved Director and Moderator emails." };
+  }
+  if (opts.staffOnly && staffAssignmentFor(user.email)?.role !== user.role) {
+    return { error: "This email is not approved for administration." };
   }
   if (!opts.staffOnly && isStaffRole(user.role)) {
     return {
@@ -163,7 +167,6 @@ export async function adminSignupAction(
     email: formData.get("email"),
     phone: formData.get("phone") || "",
     password: formData.get("password"),
-    role: formData.get("role"),
     signupCode: formData.get("signupCode"),
   });
   if (!parsed.success) {
@@ -174,6 +177,10 @@ export async function adminSignupAction(
   }
 
   const email = normalizeEmail(parsed.data.email);
+  const assignment = staffAssignmentFor(email);
+  if (!assignment) {
+    return { error: "This email is not approved for administration." };
+  }
   const phone = parsed.data.phone ? normalizePhone(parsed.data.phone) : null;
   if (!allowRequest(`admin-signup:${email}`, 6, 10 * 60 * 1000)) {
     return { error: "Too many attempts. Please wait a few minutes." };
@@ -195,7 +202,7 @@ export async function adminSignupAction(
       name: parsed.data.name,
       email,
       phone,
-      role: parsed.data.role,
+      role: assignment.role,
       passwordHash: await hashPassword(parsed.data.password),
     },
   });
@@ -259,8 +266,8 @@ export async function requestEmailOtpAction(
   if (!user) {
     return { error: "No account found for that email. Register first." };
   }
-  if (purpose === "ADMIN_LOGIN" && !isStaffRole(user.role)) {
-    return { error: "Administration OTP is only for Moderators and Directors." };
+  if (purpose === "ADMIN_LOGIN" && staffAssignmentFor(user.email)?.role !== user.role) {
+    return { error: "Administration OTP is only for approved staff emails." };
   }
   if (purpose === "LOGIN" && isStaffRole(user.role)) {
     return { error: "Staff accounts use Administration login." };
@@ -297,8 +304,8 @@ export async function requestWhatsAppOtpAction(
         "No account found for that WhatsApp number. Register with your number first, or ask admin to link it.",
     };
   }
-  if (purpose === "ADMIN_LOGIN" && !isStaffRole(user.role)) {
-    return { error: "Administration OTP is only for Moderators and Directors." };
+  if (purpose === "ADMIN_LOGIN" && staffAssignmentFor(user.email)?.role !== user.role) {
+    return { error: "Administration OTP is only for approved staff emails." };
   }
   if (purpose === "LOGIN" && isStaffRole(user.role)) {
     return { error: "Staff accounts use Administration login." };
@@ -392,7 +399,7 @@ export async function verifyOtpAction(
   if (!user) {
     return { error: "Account not found for this OTP." };
   }
-  if (purpose === "ADMIN_LOGIN" && !isStaffRole(user.role)) {
+  if (purpose === "ADMIN_LOGIN" && staffAssignmentFor(user.email)?.role !== user.role) {
     return { error: "Administration access denied." };
   }
   if (purpose === "LOGIN" && isStaffRole(user.role)) {

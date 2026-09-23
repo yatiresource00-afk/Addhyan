@@ -60,10 +60,6 @@ export function AdminAuthForm() {
         <Link href="/login" className="text-primary font-medium">
           student sign in
         </Link>
-        . Need a staff account?{" "}
-        <Link href="/admin/signup" className="text-primary font-medium">
-          Admin sign up
-        </Link>
         .
       </p>
     </div>
@@ -169,18 +165,9 @@ export function AdminSignupForm() {
       <Field label="Password" name="password">
         <Input id="password" name="password" type="password" required minLength={8} className="h-11" autoComplete="new-password" />
       </Field>
-      <div className="space-y-1.5">
-        <Label htmlFor="role">Role</Label>
-        <select
-          id="role"
-          name="role"
-          defaultValue="DIRECTOR"
-          className="border-input h-11 w-full rounded-md border bg-white px-3 text-sm"
-        >
-          <option value="DIRECTOR">Director</option>
-          <option value="MODERATOR">Moderator</option>
-        </select>
-      </div>
+      <p className="text-muted-foreground text-sm">
+        Only approved Yati Resource staff emails can create an administration account. The role is assigned from that email.
+      </p>
       <Field label="Admin setup code" name="signupCode">
         <Input id="signupCode" name="signupCode" required className="h-11" autoComplete="off" />
       </Field>

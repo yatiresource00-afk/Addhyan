@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { requireStaff } from "@/lib/auth/session";
 import { hashPassword } from "@/lib/auth/password";
 import { isDirector, isStaffRole } from "@/lib/auth/roles";
+import { staffAssignmentFor } from "@/lib/auth/staff-allowlist";
 import { normalizeEmail, normalizePhone } from "@/lib/auth/otp";
 import { offerings } from "@/data/offerings";
 
@@ -39,6 +40,9 @@ export async function createUserAction(
   }
   if (role !== "STUDENT" && !isDirector(gate.user.role)) {
     return { error: "Only Directors can create Moderator or Director accounts." };
+  }
+  if (role !== "STUDENT" && staffAssignmentFor(email)?.role !== role) {
+    return { error: "That email is not approved for this staff role." };
   }
 
   const existing = await prisma.user.findUnique({ where: { email } });
@@ -78,6 +82,12 @@ export async function updateUserRoleAction(
   }
   if (userId === gate.user.id && role === "STUDENT") {
     return { error: "You cannot demote your own Director account." };
+  }
+
+  const target = await prisma.user.findUnique({ where: { id: userId } });
+  if (!target) return { error: "User not found." };
+  if (role !== "STUDENT" && staffAssignmentFor(target.email)?.role !== role) {
+    return { error: "That email is not approved for this staff role." };
   }
 
   await prisma.user.update({ where: { id: userId }, data: { role } });

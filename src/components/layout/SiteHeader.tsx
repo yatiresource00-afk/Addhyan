@@ -104,12 +104,6 @@ export function SiteHeader({
                 Admin login
               </Link>
               <Link
-                href="/admin/signup"
-                className="text-navy hover:text-primary rounded-md px-2 py-2 text-sm font-medium"
-              >
-                Admin sign up
-              </Link>
-              <Link
                 href="/register"
                 className={cn(buttonVariants({ variant: "secondary", size: "lg" }), "h-10 px-4")}
               >
@@ -186,13 +180,6 @@ export function SiteHeader({
                   onClick={() => setOpen(false)}
                 >
                   Admin login
-                </Link>
-                <Link
-                  href="/admin/signup"
-                  className={cn(buttonVariants({ variant: "secondary", size: "lg" }), "h-11 w-full")}
-                  onClick={() => setOpen(false)}
-                >
-                  Admin sign up
                 </Link>
                 <Link
                   href="/register"

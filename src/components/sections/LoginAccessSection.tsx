@@ -46,7 +46,7 @@ export function LoginAccessSection() {
               For Moderators and Directors only. Manage users, enrolments, video lessons and site
               settings. Password, email OTP or WhatsApp OTP.
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6">
               <Link
                 href="/admin/login"
                 className={cn(
@@ -55,12 +55,6 @@ export function LoginAccessSection() {
                 )}
               >
                 Admin sign in
-              </Link>
-              <Link
-                href="/admin/signup"
-                className="inline-flex h-11 items-center justify-center rounded-md border border-white/30 px-5 text-sm font-medium text-white hover:bg-white/10"
-              >
-                Admin sign up
               </Link>
             </div>
           </article>

@@ -66,28 +66,57 @@ async function upsertUser({ name, email, phone, password, role }) {
 }
 
 async function main() {
-  const directorPassword =
-    process.env.ADMIN_SEED_PASSWORD || "Director@Addhyan1";
-  const moderatorPassword =
-    process.env.MODERATOR_SEED_PASSWORD || "Moderator@Addhyan1";
   const studentPassword =
     process.env.STUDENT_SEED_PASSWORD || "Student@Addhyan1";
 
-  const director = await upsertUser({
-    name: "Academy Director",
-    email: "director@addhyan.academy",
-    phone: "+919900000001",
-    password: directorPassword,
-    role: "DIRECTOR",
+  const approvedStaff = [
+    {
+      name: "Pulak",
+      email: "pulak@yatiresource.com",
+      password: process.env.DIRECTOR_SEED_PASSWORD || "Pulak@Yati2026",
+      role: "DIRECTOR",
+    },
+    {
+      name: "Sales",
+      email: "sales@yatiresource.com",
+      password: process.env.SALES_SEED_PASSWORD || "Sales@Yati2026",
+      role: "MODERATOR",
+    },
+    {
+      name: "Accounts",
+      email: "accounts@yatiresource.com",
+      password: process.env.ACCOUNTS_SEED_PASSWORD || "Accounts@Yati2026",
+      role: "MODERATOR",
+    },
+  ];
+
+  await prisma.user.updateMany({
+    where: {
+      role: { in: ["DIRECTOR", "MODERATOR"] },
+      email: { notIn: approvedStaff.map((row) => row.email) },
+    },
+    data: { role: "STUDENT" },
   });
 
-  const moderator = await upsertUser({
-    name: "Programme Moderator",
-    email: "moderator@addhyan.academy",
-    phone: "+919900000002",
-    password: moderatorPassword,
-    role: "MODERATOR",
-  });
+  for (const staff of approvedStaff) {
+    const existing = await prisma.user.findUnique({ where: { email: staff.email } });
+    if (existing) {
+      await prisma.user.update({
+        where: { email: staff.email },
+        data: { name: staff.name, role: staff.role },
+      });
+    } else {
+      await prisma.user.create({
+        data: {
+          name: staff.name,
+          email: staff.email,
+          role: staff.role,
+          passwordHash: await hashPassword(staff.password),
+        },
+      });
+      console.log(`  Created ${staff.role}: ${staff.email} / ${staff.password}`);
+    }
+  }
 
   const student = await upsertUser({
     name: "Demo Student",
@@ -148,8 +177,7 @@ async function main() {
   }
 
   console.log("Seed complete:");
-  console.log(`  Director:  ${director.email} / ${directorPassword}`);
-  console.log(`  Moderator: ${moderator.email} / ${moderatorPassword}`);
+  console.log("  Staff emails: pulak@yatiresource.com (Director), sales@yatiresource.com, accounts@yatiresource.com (Moderators)");
   console.log(`  Student:   ${student.email} / ${studentPassword}`);
   console.log(
     "  OTP tip: set RESEND_API_KEY / TWILIO_* for live delivery; otherwise OTP is logged and shown in dev."

@@ -41,6 +41,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(dest, request.url));
   }
 
+  if (signedIn && !isStaff(session?.role) && pathname === "/admin/signup") {
+    return NextResponse.redirect(new URL("/learn", request.url));
+  }
+
   if (signedIn && isStaff(session?.role) && (pathname === "/admin/login" || pathname === "/admin/signup")) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
@@ -54,8 +58,7 @@ export async function middleware(request: NextRequest) {
   if (
     !signedIn &&
     pathname.startsWith("/admin") &&
-    pathname !== "/admin/login" &&
-    pathname !== "/admin/signup"
+    pathname !== "/admin/login"
   ) {
     const login = new URL("/admin/login", request.url);
     login.searchParams.set("next", pathname);

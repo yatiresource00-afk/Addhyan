@@ -31,7 +31,6 @@ export const adminSignupSchema = z.object({
       message: "Enter a valid WhatsApp number",
     }),
   password: z.string().min(8, "Use at least 8 characters").max(72),
-  role: z.enum(["MODERATOR", "DIRECTOR"]),
   signupCode: z.string().trim().min(6, "Enter the admin setup code").max(80),
 });
 
