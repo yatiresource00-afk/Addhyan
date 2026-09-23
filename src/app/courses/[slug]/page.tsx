@@ -61,13 +61,12 @@ export default async function CourseDetailPage({ params }: Props) {
       <Container className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
         <article className="space-y-10">
           <header className="space-y-4">
-            <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-muted">
+            <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-navy">
               <Image
                 src={offering.thumbnail}
                 alt=""
                 fill
                 className="object-cover"
-                unoptimized
                 priority
               />
             </div>

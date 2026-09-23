@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { lessonCount, type Offering } from "@/types/offering";
 import { formatPriceInr } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -25,15 +25,18 @@ export function CourseCard({ offering }: { offering: Offering }) {
       )}
     >
       <Link href={offering.href} className="flex h-full flex-col">
-        <div className="relative aspect-video overflow-hidden bg-muted">
+        <div className="relative aspect-video overflow-hidden bg-navy">
           <Image
             src={offering.thumbnail}
             alt=""
             fill
-            unoptimized
             className="object-cover"
             sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#001850]/80 via-[#001850]/15 to-transparent" />
+          <p className="font-heading absolute right-4 bottom-3 left-4 text-lg leading-snug font-semibold text-white">
+            {offering.title}
+          </p>
         </div>
         <CardHeader className="gap-2">
           <div className="flex flex-wrap gap-2">
@@ -43,9 +46,6 @@ export function CourseCard({ offering }: { offering: Offering }) {
             ) : null}
             <Badge variant="outline">{offering.level}</Badge>
           </div>
-          <CardTitle className="font-heading text-lg leading-snug">
-            {offering.title}
-          </CardTitle>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
             {offering.shortDescription}
           </p>
