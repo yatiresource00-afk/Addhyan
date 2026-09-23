@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
   const session = await readSession(request);
   const signedIn = Boolean(session);
 
-  if (signedIn && (pathname === "/login" || pathname === "/register")) {
+  if (signedIn && (pathname === "/login" || pathname === "/register" || pathname === "/forgot-password")) {
     const dest = isStaff(session?.role) ? "/admin" : "/learn";
     return NextResponse.redirect(new URL(dest, request.url));
   }
@@ -96,5 +96,6 @@ export const config = {
     "/admin/:path*",
     "/login",
     "/register",
+    "/forgot-password",
   ],
 };

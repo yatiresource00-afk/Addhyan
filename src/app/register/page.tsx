@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/sections/SectionHeader";
 
 export const metadata: Metadata = {
   title: "Create student account",
-  description: "Register for an Addhyan Academy student account.",
+  description: "Register with your name, email and password, then confirm the email code.",
 };
 
 export default function RegisterPage() {
@@ -15,7 +15,7 @@ export default function RegisterPage() {
         <PageHeader
           eyebrow="Students"
           title="Create student account"
-          description="Register with email and an optional WhatsApp number so you can sign in with OTP later."
+          description="Enter your name, email and a password. We email a 6-digit code. The account is created only after that code is correct."
         />
         <AuthForm mode="register" />
       </Container>

@@ -3,13 +3,12 @@ import { z } from "zod";
 export const registerSchema = z.object({
   name: z.string().trim().min(2, "Enter your name").max(80),
   email: z.string().trim().email("Enter a valid email").max(120),
-  phone: z
-    .string()
-    .trim()
-    .max(20)
-    .refine((value) => value === "" || value.replace(/\D/g, "").length >= 10, {
-      message: "Enter a valid WhatsApp number",
-    }),
+  password: z.string().min(8, "Use at least 8 characters").max(72),
+});
+
+export const resetPasswordSchema = z.object({
+  email: z.string().trim().email("Enter a valid email").max(120),
+  code: z.string().trim().regex(/^\d{6}$/, "Enter the 6-digit code"),
   password: z.string().min(8, "Use at least 8 characters").max(72),
 });
 

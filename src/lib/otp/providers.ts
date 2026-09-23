@@ -19,7 +19,11 @@ export function otpProviderStatus() {
   };
 }
 
-export async function sendEmailOtp(to: string, code: string): Promise<SendResult> {
+export async function sendEmailOtp(
+  to: string,
+  code: string,
+  message?: { subject: string; text: string }
+): Promise<SendResult> {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.EMAIL_FROM?.trim();
 
@@ -45,8 +49,10 @@ export async function sendEmailOtp(to: string, code: string): Promise<SendResult
       body: JSON.stringify({
         from,
         to: [to],
-        subject: "Your Addhyan Academy login code",
-        text: `Your Addhyan Academy verification code is ${code}. It expires in 10 minutes. If you did not request this, ignore this email.`,
+        subject: message?.subject ?? "Your Addhyan Academy login code",
+        text:
+          message?.text ??
+          `Your Addhyan Academy verification code is ${code}. It expires in 10 minutes. If you did not request this, ignore this email.`,
       }),
     });
     if (!response.ok) {

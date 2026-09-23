@@ -9,6 +9,7 @@ import {
   adminSignupSchema,
   loginSchema,
   registerSchema,
+  resetPasswordSchema,
 } from "@/lib/auth/schema";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { allowRequest } from "@/lib/rate-limit";
@@ -61,7 +62,6 @@ export async function registerAction(
   const parsed = registerSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
-    phone: formData.get("phone") || "",
     password: formData.get("password"),
   });
   if (!parsed.success) {
@@ -69,7 +69,9 @@ export async function registerAction(
   }
 
   const email = normalizeEmail(parsed.data.email);
-  const phone = parsed.data.phone ? normalizePhone(parsed.data.phone) : null;
+  if (staffAssignmentFor(email)) {
+    return { error: "Staff emails use Administration sign in." };
+  }
   if (!allowRequest(`register:${email}`, 8, 10 * 60 * 1000)) {
     return { error: "Too many attempts. Please wait a few minutes." };
   }
@@ -78,23 +80,126 @@ export async function registerAction(
   if (existing) {
     return { error: "An account with that email already exists. Try signing in." };
   }
-  if (phone) {
-    const phoneTaken = await prisma.user.findUnique({ where: { phone } });
-    if (phoneTaken) {
-      return { error: "That WhatsApp number is already linked to an account." };
-    }
+
+  const passwordHash = await hashPassword(parsed.data.password);
+  return createAndSendOtp({
+    channel: "EMAIL",
+    purpose: "SIGNUP",
+    target: email,
+    payload: JSON.stringify({ name: parsed.data.name, passwordHash }),
+    emailMessage: {
+      subject: "Confirm your Addhyan Academy account",
+      text: "Your Addhyan Academy sign-up code is {{code}}. It expires in 10 minutes.",
+    },
+  });
+}
+
+export async function verifyStudentSignupAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const email = normalizeEmail(String(formData.get("email") || ""));
+  const code = String(formData.get("code") || "").trim();
+  if (!/^\d{6}$/.test(code)) {
+    return { error: "Enter the 6-digit code from your email.", step: "code", channel: "EMAIL", target: email };
+  }
+
+  const challenge = await findOpenEmailChallenge(email, "SIGNUP");
+  if (!challenge?.payload) {
+    return { error: "Code expired or not found. Start sign up again." };
+  }
+  const matched = await consumeOtpIfValid(challenge, code);
+  if (!matched.ok) {
+    return { error: matched.error, step: "code", channel: "EMAIL", target: email };
+  }
+
+  const payload = JSON.parse(challenge.payload) as { name?: string; passwordHash?: string };
+  if (!payload.name || !payload.passwordHash) {
+    return { error: "Sign up could not be completed. Start again." };
+  }
+
+  const already = await prisma.user.findUnique({ where: { email } });
+  if (already) {
+    return { error: "An account with that email already exists. Try signing in." };
   }
 
   const user = await prisma.user.create({
     data: {
-      name: parsed.data.name,
+      name: payload.name,
       email,
-      phone,
-      passwordHash: await hashPassword(parsed.data.password),
+      passwordHash: payload.passwordHash,
       role: "STUDENT",
     },
   });
+  await setSessionCookie(toSession(user));
+  redirect("/learn");
+}
 
+export async function requestPasswordResetAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const email = normalizeEmail(String(formData.get("email") || ""));
+  if (!email.includes("@")) return { error: "Enter a valid email." };
+  if (!allowRequest(`reset:${email}`, 6, 10 * 60 * 1000)) {
+    return { error: "Too many attempts. Please wait a few minutes." };
+  }
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user || isStaffRole(user.role)) {
+    return { error: "No student account was found for that email." };
+  }
+
+  return createAndSendOtp({
+    channel: "EMAIL",
+    purpose: "RESET_PASSWORD",
+    target: email,
+    userId: user.id,
+    emailMessage: {
+      subject: "Reset your Addhyan Academy password",
+      text: "Your Addhyan Academy password reset code is {{code}}. It expires in 10 minutes.",
+    },
+  });
+}
+
+export async function resetPasswordAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const parsed = resetPasswordSchema.safeParse({
+    email: formData.get("email"),
+    code: formData.get("code"),
+    password: formData.get("password"),
+  });
+  if (!parsed.success) {
+    const email = normalizeEmail(String(formData.get("email") || ""));
+    return {
+      error: parsed.error.issues[0]?.message ?? "Check the form and try again.",
+      step: "code",
+      channel: "EMAIL",
+      target: email,
+    };
+  }
+
+  const email = normalizeEmail(parsed.data.email);
+  const challenge = await findOpenEmailChallenge(email, "RESET_PASSWORD");
+  if (!challenge) {
+    return { error: "Code expired or not found. Request a new code.", step: "code", channel: "EMAIL", target: email };
+  }
+  const matched = await consumeOtpIfValid(challenge, parsed.data.code);
+  if (!matched.ok) {
+    return { error: matched.error, step: "code", channel: "EMAIL", target: email };
+  }
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user || isStaffRole(user.role)) {
+    return { error: "No student account was found for that email." };
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { passwordHash: await hashPassword(parsed.data.password) },
+  });
   await setSessionCookie(toSession(user));
   redirect("/learn");
 }
@@ -211,11 +316,45 @@ export async function adminSignupAction(
   redirect("/admin");
 }
 
+async function findOpenEmailChallenge(target: string, purpose: OtpPurpose) {
+  return prisma.otpChallenge.findFirst({
+    where: {
+      target,
+      channel: "EMAIL",
+      purpose,
+      consumedAt: null,
+      expiresAt: { gt: new Date() },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+async function consumeOtpIfValid(
+  challenge: { id: string; codeHash: string; attempts: number },
+  code: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (challenge.attempts >= 5) {
+    return { ok: false, error: "Too many incorrect attempts. Request a new code." };
+  }
+  const matches = challenge.codeHash === hashOtpCode(code);
+  await prisma.otpChallenge.update({
+    where: { id: challenge.id },
+    data: {
+      attempts: { increment: 1 },
+      consumedAt: matches ? new Date() : undefined,
+    },
+  });
+  if (!matches) return { ok: false, error: "Incorrect code. Try again." };
+  return { ok: true };
+}
+
 async function createAndSendOtp(opts: {
   channel: OtpChannel;
   purpose: OtpPurpose;
   target: string;
   userId?: string | null;
+  payload?: string;
+  emailMessage?: { subject: string; text: string };
 }): Promise<AuthState> {
   const code = generateOtpCode();
   await prisma.otpChallenge.create({
@@ -224,14 +363,22 @@ async function createAndSendOtp(opts: {
       purpose: opts.purpose,
       target: opts.target,
       userId: opts.userId ?? null,
+      payload: opts.payload,
       codeHash: hashOtpCode(code),
       expiresAt: otpExpiresAt(10),
     },
   });
 
+  const emailMessage = opts.emailMessage
+    ? {
+        subject: opts.emailMessage.subject,
+        text: opts.emailMessage.text.replace("{{code}}", code),
+      }
+    : undefined;
+
   const sent =
     opts.channel === "EMAIL"
-      ? await sendEmailOtp(opts.target, code)
+      ? await sendEmailOtp(opts.target, code, emailMessage)
       : await sendWhatsAppOtp(opts.target, code);
 
   if (!sent.ok) return { error: sent.error };

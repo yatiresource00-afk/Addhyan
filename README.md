@@ -17,13 +17,14 @@ Open [http://127.0.0.1:43123](http://127.0.0.1:43123).
 
 ### Demo accounts (after seed)
 
-| Role | Email | Password |
+| Role | Email | Password (first create only) |
 |---|---|---|
-| Director | `director@addhyan.academy` | `Director@Addhyan1` |
-| Moderator | `moderator@addhyan.academy` | `Moderator@Addhyan1` |
+| Director | `pulak@yatiresource.com` | `Pulak@Yati2026` |
+| Moderator | `sales@yatiresource.com` | `Sales@Yati2026` |
+| Moderator | `accounts@yatiresource.com` | `Accounts@Yati2026` |
 | Student | `student@addhyan.academy` | `Student@Addhyan1` |
 
-Student WhatsApp demo number: `+919900000003` · Director: `+919900000001`
+No other email can be a Director or Moderator. Students cannot open admin sign up.
 
 ## Sign-in options
 

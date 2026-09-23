@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/sections/SectionHeader";
 
 export const metadata: Metadata = {
   title: "Student sign in",
-  description: "Sign in to Addhyan Academy with password, email OTP or WhatsApp OTP.",
+  description: "Sign in to Addhyan Academy with your email and password.",
 };
 
 export default function LoginPage() {
@@ -15,7 +15,7 @@ export default function LoginPage() {
         <PageHeader
           eyebrow="Students"
           title="Student sign in"
-          description="Use password, email OTP or WhatsApp OTP. After signing in you can open your courses, video modules and progress."
+          description="Use the email and password from your account. New students confirm their email with a code before the account is created."
         />
         <AuthForm mode="login" />
       </Container>

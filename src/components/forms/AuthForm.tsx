@@ -10,6 +10,9 @@ import {
   adminSignupAction,
   loginAction,
   registerAction,
+  requestPasswordResetAction,
+  resetPasswordAction,
+  verifyStudentSignupAction,
   requestEmailOtpAction,
   requestWhatsAppOtpAction,
   verifyOtpAction,
@@ -21,18 +24,18 @@ type Mode = "login" | "register";
 type Tab = "password" | "email" | "whatsapp";
 
 export function AuthForm({ mode }: { mode: Mode }) {
-  const [tab, setTab] = useState<Tab>("password");
-
   if (mode === "register") {
     return <RegisterBlock />;
   }
 
   return (
     <div className="space-y-4 rounded-xl border border-border bg-white p-5 sm:p-6">
-      <TabBar tab={tab} onChange={setTab} />
-      {tab === "password" ? <PasswordLogin action={loginAction} /> : null}
-      {tab === "email" ? <OtpLogin channel="EMAIL" purpose="LOGIN" /> : null}
-      {tab === "whatsapp" ? <OtpLogin channel="WHATSAPP" purpose="LOGIN" /> : null}
+      <PasswordLogin action={loginAction} />
+      <p className="text-muted-foreground text-sm">
+        <Link href="/forgot-password" className="text-primary font-medium">
+          Forgot password
+        </Link>
+      </p>
       <p className="text-muted-foreground text-sm">
         New here?{" "}
         <Link href="/register" className="text-primary font-medium">
@@ -95,10 +98,39 @@ function TabBar({ tab, onChange }: { tab: Tab; onChange: (tab: Tab) => void }) {
 }
 
 function RegisterBlock() {
-  const [state, formAction, pending] = useActionState<AuthState, FormData>(
-    registerAction,
+  const [state, formAction, pending] = useActionState<AuthState, FormData>(registerAction, {});
+  const [verifyState, verifyAction, verifyPending] = useActionState<AuthState, FormData>(
+    verifyStudentSignupAction,
     {}
   );
+  const step = verifyState.step || state.step;
+  const email = verifyState.target || state.target;
+  const error = verifyState.error || state.error;
+  const devCode = verifyState.devCode || state.devCode;
+
+  if (step === "code" && email) {
+    return (
+      <form action={verifyAction} className="space-y-4 rounded-xl border border-border bg-white p-5 sm:p-6">
+        <input type="hidden" name="email" value={email} />
+        <p className="text-muted-foreground text-sm">
+          Enter the 6-digit code sent to <span className="text-foreground font-medium">{email}</span>.
+        </p>
+        {devCode ? (
+          <p className="rounded-md border border-dashed border-orange/40 bg-[#fff8ee] px-3 py-2 text-sm text-orange">
+            Dev OTP: <strong>{devCode}</strong>
+          </p>
+        ) : null}
+        <Field label="Email code" name="code">
+          <Input id="code" name="code" inputMode="numeric" pattern="\d{6}" maxLength={6} required className="h-11 tracking-[0.3em]" autoComplete="one-time-code" />
+        </Field>
+        {error ? <p className="text-destructive text-sm" role="alert">{error}</p> : null}
+        <Button type="submit" disabled={verifyPending} className="h-11 w-full px-5">
+          {verifyPending ? "Checking…" : "Verify email and create account"}
+        </Button>
+      </form>
+    );
+  }
+
   return (
     <form action={formAction} className="space-y-4 rounded-xl border border-border bg-white p-5 sm:p-6">
       <Field label="Full name" name="name">
@@ -107,39 +139,75 @@ function RegisterBlock() {
       <Field label="Email" name="email">
         <Input id="email" name="email" type="email" required className="h-11" autoComplete="email" />
       </Field>
-      <Field label="WhatsApp number (optional)" name="phone">
-        <Input
-          id="phone"
-          name="phone"
-          type="tel"
-          placeholder="+91 98765 43210"
-          className="h-11"
-          autoComplete="tel"
-        />
+      <Field label="Create password" name="password">
+        <Input id="password" name="password" type="password" required minLength={8} className="h-11" autoComplete="new-password" />
       </Field>
-      <Field label="Password" name="password">
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          required
-          minLength={8}
-          className="h-11"
-          autoComplete="new-password"
-        />
-      </Field>
-      {state.error ? (
-        <p className="text-destructive text-sm" role="alert">
-          {state.error}
-        </p>
-      ) : null}
+      {error ? <p className="text-destructive text-sm" role="alert">{error}</p> : null}
       <Button type="submit" disabled={pending} className="h-11 w-full px-5">
-        {pending ? "Please wait…" : "Create student account"}
+        {pending ? "Sending code…" : "Send email code"}
       </Button>
       <p className="text-muted-foreground text-sm">
         Already registered?{" "}
         <Link href="/login" className="text-primary font-medium">
           Sign in
+        </Link>
+      </p>
+    </form>
+  );
+}
+
+export function ForgotPasswordForm() {
+  const [requestState, requestAction, requestPending] = useActionState<AuthState, FormData>(
+    requestPasswordResetAction,
+    {}
+  );
+  const [resetState, resetAction, resetPending] = useActionState<AuthState, FormData>(
+    resetPasswordAction,
+    {}
+  );
+  const step = resetState.step || requestState.step;
+  const email = resetState.target || requestState.target;
+  const error = resetState.error || requestState.error;
+  const devCode = resetState.devCode || requestState.devCode;
+
+  if (step === "code" && email) {
+    return (
+      <form action={resetAction} className="space-y-4 rounded-xl border border-border bg-white p-5 sm:p-6">
+        <input type="hidden" name="email" value={email} />
+        <p className="text-muted-foreground text-sm">
+          Enter the code sent to <span className="text-foreground font-medium">{email}</span> and choose a new password.
+        </p>
+        {devCode ? (
+          <p className="rounded-md border border-dashed border-orange/40 bg-[#fff8ee] px-3 py-2 text-sm text-orange">
+            Dev OTP: <strong>{devCode}</strong>
+          </p>
+        ) : null}
+        <Field label="Email code" name="code">
+          <Input id="code" name="code" inputMode="numeric" pattern="\d{6}" maxLength={6} required className="h-11 tracking-[0.3em]" autoComplete="one-time-code" />
+        </Field>
+        <Field label="New password" name="password">
+          <Input id="password" name="password" type="password" required minLength={8} className="h-11" autoComplete="new-password" />
+        </Field>
+        {error ? <p className="text-destructive text-sm" role="alert">{error}</p> : null}
+        <Button type="submit" disabled={resetPending} className="h-11 w-full px-5">
+          {resetPending ? "Saving…" : "Reset password and sign in"}
+        </Button>
+      </form>
+    );
+  }
+
+  return (
+    <form action={requestAction} className="space-y-4 rounded-xl border border-border bg-white p-5 sm:p-6">
+      <Field label="Email" name="email">
+        <Input id="email" name="email" type="email" required className="h-11" autoComplete="email" />
+      </Field>
+      {error ? <p className="text-destructive text-sm" role="alert">{error}</p> : null}
+      <Button type="submit" disabled={requestPending} className="h-11 w-full px-5">
+        {requestPending ? "Sending code…" : "Send reset code"}
+      </Button>
+      <p className="text-muted-foreground text-sm">
+        <Link href="/login" className="text-primary font-medium">
+          Back to sign in
         </Link>
       </p>
     </form>

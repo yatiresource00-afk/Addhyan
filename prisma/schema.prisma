@@ -22,6 +22,8 @@ enum OtpChannel {
 enum OtpPurpose {
   LOGIN
   ADMIN_LOGIN
+  SIGNUP
+  RESET_PASSWORD
 }
 
 model User {
@@ -47,6 +49,7 @@ model OtpChallenge {
   purpose   OtpPurpose
   target    String
   codeHash  String
+  payload   String?
   attempts  Int        @default(0)
   expiresAt DateTime
   consumedAt DateTime?
