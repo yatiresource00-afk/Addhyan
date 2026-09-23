@@ -3,8 +3,10 @@
 import { redirect } from "next/navigation";
 import type { OtpChannel, OtpPurpose, Role } from "@prisma/client";
 import { prisma } from "@/lib/db";
+import { timingSafeEqual } from "node:crypto";
 import {
   adminLoginSchema,
+  adminSignupSchema,
   loginSchema,
   registerSchema,
 } from "@/lib/auth/schema";
@@ -142,6 +144,64 @@ export async function adminLoginAction(
   formData: FormData
 ): Promise<AuthState> {
   return passwordLogin(formData, { staffOnly: true });
+}
+
+function adminSignupCodeMatches(input: string) {
+  const expected = process.env.ADMIN_SIGNUP_CODE || "AddhyanDirectorSetup";
+  const given = Buffer.from(input);
+  const wanted = Buffer.from(expected);
+  if (given.length !== wanted.length) return false;
+  return timingSafeEqual(given, wanted);
+}
+
+export async function adminSignupAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const parsed = adminSignupSchema.safeParse({
+    name: formData.get("name"),
+    email: formData.get("email"),
+    phone: formData.get("phone") || "",
+    password: formData.get("password"),
+    role: formData.get("role"),
+    signupCode: formData.get("signupCode"),
+  });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Check the form and try again." };
+  }
+  if (!adminSignupCodeMatches(parsed.data.signupCode)) {
+    return { error: "Admin setup code is not correct." };
+  }
+
+  const email = normalizeEmail(parsed.data.email);
+  const phone = parsed.data.phone ? normalizePhone(parsed.data.phone) : null;
+  if (!allowRequest(`admin-signup:${email}`, 6, 10 * 60 * 1000)) {
+    return { error: "Too many attempts. Please wait a few minutes." };
+  }
+
+  const existing = await prisma.user.findUnique({ where: { email } });
+  if (existing) {
+    return { error: "An account with that email already exists. Sign in instead." };
+  }
+  if (phone) {
+    const phoneTaken = await prisma.user.findUnique({ where: { phone } });
+    if (phoneTaken) {
+      return { error: "That WhatsApp number is already linked to an account." };
+    }
+  }
+
+  const user = await prisma.user.create({
+    data: {
+      name: parsed.data.name,
+      email,
+      phone,
+      role: parsed.data.role,
+      passwordHash: await hashPassword(parsed.data.password),
+    },
+  });
+
+  await setSessionCookie(toSession(user));
+  redirect("/admin");
 }
 
 async function createAndSendOtp(opts: {

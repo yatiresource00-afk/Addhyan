@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   adminLoginAction,
+  adminSignupAction,
   loginAction,
   registerAction,
   requestEmailOtpAction,
@@ -58,6 +59,10 @@ export function AdminAuthForm() {
         Moderators and Directors only. Students use{" "}
         <Link href="/login" className="text-primary font-medium">
           student sign in
+        </Link>
+        . Need a staff account?{" "}
+        <Link href="/admin/signup" className="text-primary font-medium">
+          Admin sign up
         </Link>
         .
       </p>
@@ -139,6 +144,58 @@ function RegisterBlock() {
         Already registered?{" "}
         <Link href="/login" className="text-primary font-medium">
           Sign in
+        </Link>
+      </p>
+    </form>
+  );
+}
+
+export function AdminSignupForm() {
+  const [state, formAction, pending] = useActionState<AuthState, FormData>(
+    adminSignupAction,
+    {}
+  );
+  return (
+    <form action={formAction} className="space-y-4 rounded-xl border border-border bg-white p-5 sm:p-6">
+      <Field label="Full name" name="name">
+        <Input id="name" name="name" required minLength={2} className="h-11" autoComplete="name" />
+      </Field>
+      <Field label="Email" name="email">
+        <Input id="email" name="email" type="email" required className="h-11" autoComplete="email" />
+      </Field>
+      <Field label="WhatsApp number (optional)" name="phone">
+        <Input id="phone" name="phone" type="tel" placeholder="+91 98765 43210" className="h-11" autoComplete="tel" />
+      </Field>
+      <Field label="Password" name="password">
+        <Input id="password" name="password" type="password" required minLength={8} className="h-11" autoComplete="new-password" />
+      </Field>
+      <div className="space-y-1.5">
+        <Label htmlFor="role">Role</Label>
+        <select
+          id="role"
+          name="role"
+          defaultValue="DIRECTOR"
+          className="border-input h-11 w-full rounded-md border bg-white px-3 text-sm"
+        >
+          <option value="DIRECTOR">Director</option>
+          <option value="MODERATOR">Moderator</option>
+        </select>
+      </div>
+      <Field label="Admin setup code" name="signupCode">
+        <Input id="signupCode" name="signupCode" required className="h-11" autoComplete="off" />
+      </Field>
+      {state.error ? (
+        <p className="text-destructive text-sm" role="alert">
+          {state.error}
+        </p>
+      ) : null}
+      <Button type="submit" disabled={pending} className="h-11 w-full px-5">
+        {pending ? "Please wait…" : "Create admin account"}
+      </Button>
+      <p className="text-muted-foreground text-sm">
+        Already have a staff account?{" "}
+        <Link href="/admin/login" className="text-primary font-medium">
+          Admin sign in
         </Link>
       </p>
     </form>

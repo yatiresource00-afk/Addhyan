@@ -20,6 +20,21 @@ export const loginSchema = z.object({
 
 export const adminLoginSchema = loginSchema;
 
+export const adminSignupSchema = z.object({
+  name: z.string().trim().min(2, "Enter your name").max(80),
+  email: z.string().trim().email("Enter a valid email").max(120),
+  phone: z
+    .string()
+    .trim()
+    .max(20)
+    .refine((value) => value === "" || value.replace(/\D/g, "").length >= 10, {
+      message: "Enter a valid WhatsApp number",
+    }),
+  password: z.string().min(8, "Use at least 8 characters").max(72),
+  role: z.enum(["MODERATOR", "DIRECTOR"]),
+  signupCode: z.string().trim().min(6, "Enter the admin setup code").max(80),
+});
+
 export const emailOtpRequestSchema = z.object({
   email: z.string().trim().email("Enter a valid email").max(120),
 });
