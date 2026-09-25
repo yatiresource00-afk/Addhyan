@@ -130,6 +130,9 @@
   .animate-fade-up {
     animation: fade-up 0.45s ease both;
   }
+  .animate-photo-run {
+    animation: photo-run 140s linear infinite;
+  }
 }
 
 @keyframes fade-up {
@@ -143,11 +146,21 @@
   }
 }
 
+@keyframes photo-run {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .animate-fade-up {
+  .animate-fade-up,
+  .animate-photo-run {
     animation: none;
   }
 }

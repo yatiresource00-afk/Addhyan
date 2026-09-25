@@ -67,7 +67,6 @@ export default async function HomePage() {
   const settings = await getSiteSettingsMap();
   const announcement = settings.announcement?.trim();
   const images = await prisma.siteImage.findMany({ orderBy: { createdAt: "desc" } });
-  const hero = images.find((image) => image.placement === "hero");
   const gallery = images.filter((image) => image.placement === "gallery");
 
   return (
@@ -77,9 +76,7 @@ export default async function HomePage() {
           <Container className="py-2.5 text-center text-sm text-navy">{announcement}</Container>
         </div>
       ) : null}
-      <HomeHero
-        photo={hero ? { src: `/media/${hero.filename}`, alt: hero.alt } : null}
-      />
+      <HomeHero />
       {gallery.length > 0 ? (
         <section className="py-16">
           <Container className="space-y-8">

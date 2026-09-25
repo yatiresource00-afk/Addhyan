@@ -31,7 +31,7 @@ export const nav = {
     {
       heading: "Paid courses",
       links: [
-        { href: "/courses/jrp", label: "JRP – Job Ready Program" },
+        { href: "/courses/jrp", label: "JRP – Industry Ready Program" },
         { href: "/courses/jrp-advance", label: "JRP Advance" },
         { href: "/courses/basic-ai", label: "Basic AI" },
         { href: "/courses/advanced-ai", label: "Advanced AI" },

@@ -4,7 +4,7 @@ import { lessonCount } from "@/types/offering";
 export const offerings: Offering[] = [
   {
     id: "jrp",
-    title: "JRP – Job Ready Program",
+    title: "JRP – Industry Ready Program",
     slug: "jrp",
     href: "/courses/jrp",
     category: "paid",
@@ -12,7 +12,7 @@ export const offerings: Offering[] = [
     price: 999,
     currency: "INR",
     gstIncluded: true,
-    positioning: "Become Job Ready",
+    positioning: "Become Industry Ready",
     shortDescription:
       "Workplace etiquette, communication, grooming and interview basics so you can start a job with confidence.",
     description:
@@ -111,9 +111,9 @@ export const offerings: Offering[] = [
       },
     ],
     seo: {
-      title: "JRP – Job Ready Program | Addhyan Academy",
+      title: "JRP – Industry Ready Program | Addhyan Academy",
       description:
-        "Become job ready with Addhyan’s JRP: professional etiquette, communication, grooming, email writing and interview fundamentals. ₹999 including GST.",
+        "Become industry ready with Addhyan’s JRP: professional etiquette, communication, grooming, email writing and interview fundamentals. ₹999 including GST.",
     },
   },
   {

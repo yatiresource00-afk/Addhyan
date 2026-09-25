@@ -37,10 +37,16 @@ export function PujaOfferPopup() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="puja-offer-title"
-        className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-[0_16px_40px_rgba(0,24,80,0.18)]"
+        className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 shadow-[0_16px_40px_rgba(0,24,80,0.18)]"
       >
-        <p className="text-orange text-xs font-semibold tracking-wide uppercase">Puja Offer</p>
-        <h2 id="puja-offer-title" className="font-heading mt-2 text-2xl font-semibold text-navy">
+        <img
+          src="/brand/durga.png"
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute top-2 left-2 size-24 object-contain opacity-25"
+        />
+        <p className="text-orange relative z-10 pl-16 text-xs font-semibold tracking-wide uppercase">Durga Puja Offer</p>
+        <h2 id="puja-offer-title" className="font-heading relative z-10 mt-2 text-2xl font-semibold text-navy">
           Free demo class and live counselling
         </h2>
         <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
