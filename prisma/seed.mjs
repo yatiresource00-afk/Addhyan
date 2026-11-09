@@ -195,3 +195,12 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+const seedCourses = [
+  // ... other courses
+  {
+    slug: "advanced-ai",
+    title: "Advanced AI Course",
+    price: 19999, // <--- Set your price here
+    // ... description and other fields
+  },
+];
