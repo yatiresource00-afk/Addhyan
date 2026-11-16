@@ -9,7 +9,7 @@ export const offerings: Offering[] = [
     href: "/courses/jrp",
     category: "paid",
     type: "self-paced",
-    price: 999,
+    price: 1499,
     currency: "INR",
     gstIncluded: true,
     positioning: "Become Industry Ready",
@@ -107,7 +107,7 @@ export const offerings: Offering[] = [
       },
       {
         question: "Does the fee include GST?",
-        answer: "Yes. The listed price of ₹999 includes GST.",
+        answer: "Yes. The listed price of ₹1999 includes GST.",
       },
     ],
     seo: {
@@ -254,7 +254,7 @@ export const offerings: Offering[] = [
     href: "/courses/basic-ai",
     category: "paid",
     type: "self-paced",
-    price: 999,
+    price: 1499,
     currency: "INR",
     gstIncluded: true,
     positioning: "Learn AI. Use AI. Work Smarter.",
@@ -351,7 +351,7 @@ export const offerings: Offering[] = [
       },
       {
         question: "Does the fee include GST?",
-        answer: "Yes. The listed price of ₹999 includes GST.",
+        answer: "Yes. The listed price of ₹1499 includes GST.",
       },
     ],
     seo: {
@@ -367,7 +367,7 @@ export const offerings: Offering[] = [
     href: "/courses/advanced-ai",
     category: "paid",
     type: "self-paced",
-    price: 2999,
+    price: 19999,
     currency: "INR",
     gstIncluded: true,
     positioning:
@@ -467,7 +467,7 @@ export const offerings: Offering[] = [
       },
       {
         question: "Does the fee include GST?",
-        answer: "Yes. The listed price of ₹2,999 includes GST.",
+        answer: "Yes. The listed price of ₹19,999 includes GST.",
       },
     ],
     seo: {
