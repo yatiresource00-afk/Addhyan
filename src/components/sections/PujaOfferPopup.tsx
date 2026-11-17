@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const STORAGE_KEY = "addhyan-puja-offer-seen";
+const STORAGE_KEY = "addhyan-franchise-offer-seen";
 
 export function PujaOfferPopup() {
   const pathname = usePathname();
@@ -29,47 +29,62 @@ export function PujaOfferPopup() {
     <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
       <button
         type="button"
-        className="absolute inset-0 bg-[#001850]/50"
+        className="absolute inset-0 bg-[#001850]/50 backdrop-blur-xs"
         aria-label="Close offer"
         onClick={close}
       />
       <div
         role="dialog"
         aria-modal="true"
-        aria-labelledby="puja-offer-title"
+        aria-labelledby="franchise-offer-title"
         className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 shadow-[0_16px_40px_rgba(0,24,80,0.18)]"
       >
-        <img
-          src="/brand/durga.png"
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute top-2 left-2 size-24 object-contain opacity-25"
-        />
-        <p className="text-orange relative z-10 pl-16 text-xs font-semibold tracking-wide uppercase">Durga Puja Offer</p>
-        <h2 id="puja-offer-title" className="font-heading relative z-10 mt-2 text-2xl font-semibold text-navy">
-          Free demo class and live counselling
-        </h2>
-        <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-          Join a free demo class and a live counselling session during the Puja offer. Create a student account to get started.
-        </p>
-        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-          <Link href="/register" onClick={close} className="inline-flex">
-            <Button className="h-11 w-full px-5">Create student account</Button>
-          </Link>
-          <Link href="/career-counselling" onClick={close} className="inline-flex">
-            <Button variant="outline" className="h-11 w-full px-5">
-              Live counselling
-            </Button>
-          </Link>
-        </div>
-        <button
-          type="button"
-          onClick={close}
-          className="text-muted-foreground mt-4 text-sm underline-offset-2 hover:underline"
+        {/* Background image with fading gradient mask */}
+        <div 
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%)"
+          }}
         >
-          Not now
-        </button>
+          <img
+            src="/brand/franchise.jpeg"
+            alt=""
+            aria-hidden
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Content wrapper */}
+        <div className="relative z-10">
+          <p className="text-orange text-xs font-semibold tracking-wide uppercase">Franchise Opportunity</p>
+          <h2 id="franchise-offer-title" className="font-heading mt-2 text-2xl font-semibold text-navy">
+            Partner with Addhyan Academy
+          </h2>
+          <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
+            Expand your business or start your educational venture with our proven franchise model. Get full curriculum, technical, and marketing support.
+          </p>
+          <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+            <Link href="/franchise" onClick={close} className="inline-flex">
+              <Button className="h-11 w-full px-5">Explore Franchise</Button>
+            </Link>
+            <Link href="/contact" onClick={close} className="inline-flex">
+              <Button variant="outline" className="h-11 w-full px-5">
+                Contact Team
+              </Button>
+            </Link>
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            className="text-muted-foreground mt-4 text-sm underline-offset-2 hover:underline"
+          >
+            Not now
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
+
