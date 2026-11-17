@@ -195,3 +195,7 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+const seedCourses = [
+  // ... other courses
+  {
+];
